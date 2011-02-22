@@ -15,7 +15,7 @@
 		var a = t.text().split(splitter), inject = '';
 		if (a.length > 1) {
 			$(a).each(function(i, item) {
-				inject += '<span class="'+klass+(i+1)+'">'+item+'</span>'+after;
+				inject += '<span id="'+klass+(i+1)+'">'+item+'</span>'+after;
 			});	
 			t.empty().append(inject);
 		}
