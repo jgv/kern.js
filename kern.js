@@ -1,23 +1,9 @@
-function generateCSS(adjustments, unit, increment) {
-	var x; var concatCSS;
-	var theCSS = [];
-	for(x in adjustments) {
-		if(adjustments.hasOwnProperty(x)) {
-			concatCSS = [
-				"#" + x + " {",
-				'\t' + 'margin-left: ' + adjustments[x] + 'px;',
-				'}'
-				].join('\n');
-				theCSS = theCSS + '\n' + concatCSS;
-		}
-	}
-}
-
 $(function() {
 	var activeEl; var unit; var increment; var kerning = 0; var adjustments = {};
 	var thePanel =
 		['<style>',
-			'#kernjs_panel { height: 480px; width: 330px; -moz-border-radius: 0 0 0 5px; position: absolute; right: 0; top: 0; background: black }',
+			'#kernjs_panel { height: auto; width: 290px; padding: 30px; -moz-border-radius: 0 0 0 10px; -webkit-border-radius: 0 0 0 10px; border-radius: 0 0 0 10px; position: absolute; right: 0; top: 0; background: black }',
+			'#kernjs_panel textarea { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; width: 280px; height: 300px; padding: 10px;',
 		'</style>',
 
 		'<div id="kernjs_panel">',
@@ -52,14 +38,31 @@ $(function() {
 			kerning--;
 			$(activeEl).css('margin-left', kerning);
 			adjustments[$(activeEl).attr("id")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-			generateCSS(adjustments, unit, increment);
+			$("#kernjs_panel textarea").val(generateCSS(adjustments, unit, increment));
 		}
 		if(event.which === 39) { // If right arrow key
 			kerning++;
 			$(activeEl).css('margin-left', kerning);
 			adjustments[$(activeEl).attr("id")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
 			generateCSS(adjustments, unit, increment);
+			$("#kernjs_panel textarea").val(generateCSS(adjustments, unit, increment));
 		}
-		// $("#kernjs_panel textarea").val(theCSS);
 	});
 });
+
+function generateCSS(adjustments, unit, increment) {
+	var x; var concatCSS;
+	var theCSS = [];
+	for(x in adjustments) {
+		if(adjustments.hasOwnProperty(x)) {
+			concatCSS = [
+				"#" + x + " {",
+				'\t' + 'margin-left: ' + adjustments[x] + 'px;',
+				'}'
+				].join('\n');
+				theCSS = theCSS + '\n' + concatCSS;
+				console.log(theCSS);
+		}
+	}
+	return theCSS;
+}
