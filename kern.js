@@ -1,12 +1,37 @@
+function generateCSS(adjustments, unit, increment) {
+	var x; var concatCSS;
+	var theCSS = [];
+	for(x in adjustments) {
+		if(adjustments.hasOwnProperty(x)) {
+			concatCSS = [
+				"#" + x + " {",
+				'\t' + 'margin-left: ' + adjustments[x] + 'px;',
+				'}'
+				].join('\n');
+				theCSS = theCSS + '\n' + concatCSS;
+		}
+	}
+}
+
 $(function() {
-	var activeEl; var kerning = 0; var adjustments = {};
-	$(document.body).mouseover(function(event){
-		$(event.target).css('opacity', '.8');
-	});
-	$(document.body).click(function(event) {
+	var activeEl; var unit; var increment; var kerning = 0; var adjustments = {};
+	var thePanel =
+		['<style>',
+			'#kernjs_panel { height: 480px; width: 330px; -moz-border-radius: 0 0 0 5px; position: absolute; right: 0; top: 0; background: black }',
+		'</style>',
+
+		'<div id="kernjs_panel">',
+			'<form>',
+				'<textarea>',
+				'</textarea>',
+			'</form>',
+		'</div>'
+	].join('\n');
+	
+	$(document.body).append(thePanel);
+	
+	$("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
 		var el = event.target;
-		var units; // This variable will control the unit type to be incremented, whether px or em or whatev. (not yet implemented)
-		var increment; // This variable will control how many units are moved per keydown. (not yet implemented)
 		$(el).lettering(); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
 		$(el).children().css('opacity', '.5');
 		$(el).children().mouseover(function() {
@@ -25,12 +50,16 @@ $(function() {
 		}
 		if(event.which === 37) { // If left arrow key
 			kerning--;
+			$(activeEl).css('margin-left', kerning);
+			adjustments[$(activeEl).attr("id")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
+			generateCSS(adjustments, unit, increment);
 		}
 		if(event.which === 39) { // If right arrow key
 			kerning++;
+			$(activeEl).css('margin-left', kerning);
+			adjustments[$(activeEl).attr("id")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
+			generateCSS(adjustments, unit, increment);
 		}
-		$(activeEl).css('margin-left', kerning);
-		adjustments[$(activeEl).attr("id")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-		console.log(adjustments);
+		// $("#kernjs_panel textarea").val(theCSS);
 	});
 });
