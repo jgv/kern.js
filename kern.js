@@ -1,6 +1,8 @@
 $(function() {
-	var activeEl; var unit; var increment; var kerning = 0; var adjustments = {};
-	var thePanel =
+	var activeEl, unit, increment, kerning, adjustments, thePanel;
+	kerning = 0;
+	adjustments = {};
+	thePanel =
 		['<style>',
 			'#kernjs_panel { height: auto; width: 290px; padding: 30px; -moz-border-radius: 0 0 0 10px; -webkit-border-radius: 0 0 0 10px; border-radius: 0 0 0 10px; position: absolute; right: 0; top: 0; background: black }',
 			'#kernjs_panel textarea { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; width: 280px; height: 300px; padding: 10px;',
@@ -51,8 +53,8 @@ $(function() {
 });
 
 function generateCSS(adjustments, unit, increment) {
-	var x; var concatCSS;
-	var theCSS = [];
+	var x, concatCSS, theCSS;
+	theCSS = [];
 	for(x in adjustments) {
 		if(adjustments.hasOwnProperty(x)) {
 			concatCSS = [
