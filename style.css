@@ -10,3 +10,13 @@ h1, h2, h3 {
 	position: relative;
 	font-size: 10em;
 }
+
+#container {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#content {
+	margin: 0 auto;
+	text-align: center;
+}
