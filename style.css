@@ -8,4 +8,5 @@ span {
 h1, h2, h3 {
 	font-family: helvetica, arial;
 	position: relative;
+	font-size: 10em;
 }
