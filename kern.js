@@ -3,9 +3,10 @@ if (typeof jQuery == 'undefined') {
 	includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
 	// var html_doc = document.getElementsByTagName('head').item(0);
 	document.body.appendChild(includejquery);
+	includejquery.onload = kern;
 }
 
-jQuery.noConflict()(function() {
+function kern() {
 	var activeEl, unit, increment, kerning, adjustments, thePanel;
 	kerning = 0;
 	adjustments = {};
@@ -27,7 +28,7 @@ jQuery.noConflict()(function() {
 
 	jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
 		var el = event.target;
-		jQuery(el).lettering(); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
+		splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
 		jQuery(el).children().css('opacity', '.5');
 		jQuery(el).children().mouseover(function() {
 			jQuery(this).css('opacity', '1');
@@ -57,7 +58,7 @@ jQuery.noConflict()(function() {
 //			jQuery("#kernjs_panel textarea").val(generateCSS(adjustments, unit, increment));
 		}
 	});
-});
+}
 
 function generateCSS(adjustments, unit, increment) {
 	var x, concatCSS, theCSS;
@@ -74,4 +75,21 @@ function generateCSS(adjustments, unit, increment) {
 		}
 	}
 	return theCSS;
+}
+
+function splitter(el) {
+	console.log(el);
+	return el.each(function() {
+		injector(jQuery(el), '', 'char', '');
+	});
+}
+
+function injector(t, splitter, klass, after) {
+	var a = t.text().split(splitter), inject = '';
+	if (a.length > 1) {
+		jQuery(a).each(function(i, item) {
+			inject += '<span id="'+klass+(i+1)+'">'+item+'</span>'+after;
+		});	
+		t.empty().append(inject);
+	}
 }
