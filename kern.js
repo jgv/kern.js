@@ -16,13 +16,16 @@ function kern() {
 	var lastX;
 	thePanel =
 		['<style>',
-			'#kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border: 1px solid #EAEAEA; font-family: \'Lucida Grande\', \'Helvetica Neue\', Helvetica, arial; }',
+			'#kernjs_panel * { outline: none }',
+			'#kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border: 1px solid #EAEAEA; }',
 			'#kernjs_panel ul { list-style-type: none; display: inline-block; padding-top: 3px; }',
 			'#kernjs_panel .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
-			'#kernjs_panel .btn span { display: inline-block; padding: 10px 20px; font-family: Helvetica, Arial, sans-serif; line-height: 1; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
+			'#kernjs_panel .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
 			'#kernjs_panel .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
 			'#kernjs_panel .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }',
-			'#kernjs_panel a { color: #40411e; }',
+			'#kernjs_panel .btn span { color: #40411e; font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; }',
+			'#kernjs_panel a { text-decoration: none; }',
+			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
 		'</style>',
 		'<div id="kernjs_panel">',
 		'<ul>',
@@ -90,9 +93,37 @@ function kern() {
 			}
 		}
 	});
+	
+	var outputPanel = jQuery("#kernjs_panel a").mouseup(function() {
+		var outputPanel = [
+			'<style>',
+				'#jskern_instructions { width: 680px; height: 500px; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; background: white; display: table-cell; vertical-align: middle; text-align: center}',
+				'#jskern_overlay { position: absolute; height: 100%; width: 100%; z-index: 1000000; background: rgba(0,0,0,.8); opacity: 0; display: table }',
+				'#jskern_container { display: table-cell; vertical-align: middle; }',
+				'#jskern_instructions textarea { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; width: 500px; height: 300px; }',
+			'</style>',
+			
+			'<div id="jskern_overlay"',
+				'<div id="jskern_container"',
+					'<div id="jskern_instructions">',
+						'<textarea>',
+							generateCSS(adjustments),
+						'</textarea>',
+					'</div>',
+				'</div',
+			'</div>',
+		].join('\n');
+		jQuery(document.body).prepend(outputPanel);
+		jQuery("#jskern_overlay").animate({
+			opacity: 1
+		}, {
+			duration: 300
+		});
+	});
+	
 }
 
-function generateCSS(adjustments, unit, increment) {
+function generateCSS(adjustments) {
 	var x, concatCSS, theCSS;
 	theCSS = [];
 	for(x in adjustments) {
