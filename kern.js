@@ -16,17 +16,17 @@ function kern() {
 	var lastX;
 	thePanel =
 		['<style>',
-			'#kernjs_panel { text-align: center; height: 55px; width: 100%; margin: 0 auto; background: black; font-family: \'Lucida Grande\', \'Helvetica Neue\', Helvetica, arial; }',
-			'#kernjs_panel textarea { -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; width: 280px; height: 30px; }',
-			'#kernjs_panel ul { list-style-type: none; display: inline-block; }',
-			'#kernjs_panel li { display: inline-block; float: left; padding-right: 2em; }',
-			'#kernjs_panel a { color: white; }',
+			'#kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border: 1px solid #EAEAEA; font-family: \'Lucida Grande\', \'Helvetica Neue\', Helvetica, arial; }',
+			'#kernjs_panel ul { list-style-type: none; display: inline-block; padding-top: 3px; }',
+			'#kernjs_panel .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
+			'#kernjs_panel .btn span { display: inline-block; padding: 10px 20px; font-family: Helvetica, Arial, sans-serif; line-height: 1; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
+			'#kernjs_panel .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
+			'#kernjs_panel .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }',
+			'#kernjs_panel a { color: #40411e; }',
 		'</style>',
 		'<div id="kernjs_panel">',
 		'<ul>',
-			'<li><a href="#">Copy to Clipboard</a></li>',
-			'<li><a href="#">Save to File</a></li>',
-			'<li><a href="#">Return to editing</a></li>',
+			'<li><a class="btn" href="#" id="kernjs_finish"><span>Finish Editing</span></a></li>',
 		'</div>'
 	].join('\n');
 
