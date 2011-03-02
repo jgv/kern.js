@@ -17,7 +17,7 @@ function kern() {
 	thePanel =
 		['<style>',
 			'#kernjs_panel * { outline: none }',
-			'#kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border: 1px solid #EAEAEA; }',
+			'#kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000));}',
 			'#kernjs_panel ul { list-style-type: none; display: inline-block; padding-top: 3px; }',
 			'#kernjs_panel .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
 			'#kernjs_panel .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
@@ -39,10 +39,13 @@ function kern() {
 		if(!(activeHeader === this))
 		{
 			activeHeader = this;
+			console.log(activeHeader);
 			var el = findRootHeader(event.target);
 			var previousColor = 0;
+			var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
+//			var theHtmlString = jQuery(theHtml).parent().parent().html();
+//			console.log(jQuery(theHtml).parent().parent().html());
 			jQuery(this).attr('unselectable', 'on').css('-moz-user-select', 'none').each(function() { this.onselectstart = function() { return false; }; } );
-			splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
 			jQuery(el).children().css('opacity', '.5');
 			jQuery(this).mousedown(function(event) { // Listens for clicks on the newly created span objects.
 				if(previousColor!==0) { jQuery(activeEl).css('color', previousColor); }
@@ -57,7 +60,7 @@ function kern() {
 				kerning = adjustments[jQuery(activeEl).attr("id")];
 				function MoveHandler(event){
 					var moveX = event.pageX - lastX;
-					if(moveX != 0)
+					if(moveX !== 0)
 					{
 						lastX = event.pageX;
 						kerning +=moveX;
@@ -97,27 +100,38 @@ function kern() {
 	var outputPanel = jQuery("#kernjs_panel a").mouseup(function() {
 		var outputPanel = [
 			'<style>',
-				'#jskern_instructions { width: 680px; height: 500px; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; background: white; display: table-cell; vertical-align: middle; text-align: center}',
-				'#jskern_overlay { position: absolute; height: 100%; width: 100%; z-index: 1000000; background: rgba(0,0,0,.8); opacity: 0; display: table }',
-				'#jskern_container { display: table-cell; vertical-align: middle; }',
-				'#jskern_instructions textarea { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; width: 500px; height: 300px; }',
+				'#kernjs_overlay { position: absolute; height: 100%; width: 100%; z-index: 1000000; background: rgba(0,0,0,.8); opacity: 0; font-family: Georgia; color: #222; }',
+				'#kernjs_container { background: #EEE; margin: 0 auto; width: 570px; margin-top: 40px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; }',
+				'#kernjs_instructions { margin: 0 auto; text-align: center; padding: 40px; }',
+				'#kernjs_instructions p { font-size: 18px; line-height: 24px; color: #555; text-align: left; text-shadow: 0 -1px 1px rgba(255,255,255,.8) }',
+				'#kernjs_instructions a { color: #009bd5; text-align: center; }',
+				'#kernjs_instructions a:visited { color: #009bd5 }',
+				'#kernjs_instructions textarea { width: 440px; height: 180px; padding: 20px; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 5px; border-color: #BBB; }',
+				'p#kernjs_note { font-size: 13px; text-align: center; }',
 			'</style>',
 			
-			'<div id="jskern_overlay"',
-				'<div id="jskern_container"',
-					'<div id="jskern_instructions">',
+			'<div id="kernjs_overlay">',
+				'<div id="kernjs_container">',
+					'<div id="kernjs_instructions">',
+						'<p>Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully simple <a href="http://www.letteringjs.com\">Lettering.JS</a> to create the necessary style hooks.</p>',
 						'<textarea>',
 							generateCSS(adjustments),
 						'</textarea>',
+						'<br/><br/><a href="#" id="kernjs_continue">Continue Editing</a>',
+						'<p id="kernjs_note">Please email <a href="mailto:contact@kernjs.com">contact@kernjs.com</a> if you have any trouble</p>',
 					'</div>',
 				'</div',
-			'</div>',
+			'</div>'
 		].join('\n');
 		jQuery(document.body).prepend(outputPanel);
-		jQuery("#jskern_overlay").animate({
+		jQuery("#kernjs_overlay").animate({
 			opacity: 1
 		}, {
 			duration: 300
+		});
+		
+		jQuery("#kernjs_continue").click(function() {
+			$("#kernjs_overlay").fadeOut();
 		});
 	});
 	
