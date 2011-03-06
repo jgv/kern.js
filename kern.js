@@ -1,7 +1,6 @@
 if (typeof jQuery === 'undefined') {
 	var includejquery = document.createElement("script");
 	includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
-	// var html_doc = document.getElementsByTagName('head').item(0);
 	document.body.appendChild(includejquery);
 	includejquery.onload = kern;
 }
@@ -16,20 +15,21 @@ function kern() {
 	var lastX;
 	thePanel =
 		['<style>',
-			'#kernjs_panel * { outline: none }',
-			'#kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000));}',
-			'#kernjs_panel ul { list-style-type: none; display: inline-block; padding-top: 3px; }',
-			'#kernjs_panel .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
-			'#kernjs_panel .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
-			'#kernjs_panel .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
-			'#kernjs_panel .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }',
-			'#kernjs_panel .btn span { color: #40411e; font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; }',
-			'#kernjs_panel a { text-decoration: none; }',
+			'.kernjs_panel * { outline: none }',
+			'.kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000));}',
+			'.kernjs_panel ul { list-style-type: none; display: inline-block; padding-top: 3px; position: relative; }',
+			'.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
+			'.kernjs_button .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
+			'.kernjs_button .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
+			'.kernjs_button .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }',
+			'.kernjs_button .btn span { color: #40411e; font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; }',
+			'.kernjs_button a { text-decoration: none; }',
 			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
 		'</style>',
-		'<div id="kernjs_panel">',
-		'<ul>',
-			'<li><a class="btn" href="#" id="kernjs_finish"><span>Finish Editing</span></a></li>',
+		'<div class="kernjs_panel">',
+			'<ul class="kernjs_button">',
+				'<li><a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a></li>',
+			'</ul>',
 		'</div>'
 	].join('\n');
 
@@ -41,8 +41,10 @@ function kern() {
 			activeHeader = this;
 			console.log(activeHeader);
 			var el = findRootHeader(event.target);
+			console.log(el);
 			var previousColor = 0;
 			var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
+			console.log($(theHtml));
 //			var theHtmlString = jQuery(theHtml).parent().parent().html();
 //			console.log(jQuery(theHtml).parent().parent().html());
 			jQuery(this).attr('unselectable', 'on').css('-moz-user-select', 'none').each(function() { this.onselectstart = function() { return false; }; } );
@@ -53,18 +55,18 @@ function kern() {
 				previousColor = jQuery(activeEl).css('color');
 				jQuery(activeEl).css('color', 'red');
 				lastX = event.pageX;
-				if(typeof(adjustments[jQuery(activeEl).attr("id")]) === 'undefined')
+				if(typeof(adjustments[jQuery(activeEl).attr("class")]) === 'undefined')
 				{
-					adjustments[jQuery(activeEl).attr("id")] = 0;
+					adjustments[jQuery(activeEl).attr("class")] = 0;
 				}
-				kerning = adjustments[jQuery(activeEl).attr("id")];
+				kerning = adjustments[jQuery(activeEl).attr("class")];
 				function MoveHandler(event){
 					var moveX = event.pageX - lastX;
 					if(moveX !== 0)
 					{
 						lastX = event.pageX;
-						kerning +=moveX;
-						adjustments[jQuery(activeEl).attr("id")] = kerning;
+						kerning += moveX;
+						adjustments[jQuery(activeEl).attr("class")] = kerning;
 						jQuery(activeEl).css('margin-left', kerning);
 						generateCSS(adjustments, unit, increment);
 					}
@@ -79,62 +81,67 @@ function kern() {
 
 	jQuery(document).keydown(function(event) {
 		if(activeEl) {
-			if(adjustments[jQuery(activeEl).attr("id")]) { // If there are current adjustments already made for this letter
-				kerning = adjustments[jQuery(activeEl).attr("id")]; // Set the kerning variable to the previously made adjustments for this letter (stored inside the adjustments dictionary object)
+			if(adjustments[jQuery(activeEl).attr("class")]) { // If there are current adjustments already made for this letter
+				kerning = adjustments[jQuery(activeEl).attr("class")]; // Set the kerning variable to the previously made adjustments for this letter (stored inside the adjustments dictionary object)
 			}
 			if(event.which === 37) { // If left arrow key
 				kerning--;
 				jQuery(activeEl).css('margin-left', kerning);
-				adjustments[jQuery(activeEl).attr("id")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
+				adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
 				generateCSS(adjustments, unit, increment);
 			}
 			if(event.which === 39) { // If right arrow key
 				kerning++;
 				jQuery(activeEl).css('margin-left', kerning);
-				adjustments[jQuery(activeEl).attr("id")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
+				adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
 				generateCSS(adjustments, unit, increment);
 			}
 		}
 	});
 	
-	var outputPanel = jQuery("#kernjs_panel a").mouseup(function() {
+	var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
 		var outputPanel = [
 			'<style>',
-				'#kernjs_overlay { position: absolute; height: 100%; width: 100%; z-index: 1000000; background: rgba(0,0,0,.8); opacity: 0; font-family: Georgia; color: #222; }',
-				'#kernjs_container { background: #EEE; margin: 0 auto; width: 570px; margin-top: 40px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; }',
-				'#kernjs_instructions { margin: 0 auto; text-align: center; padding: 40px; }',
-				'#kernjs_instructions p { font-size: 18px; line-height: 24px; color: #555; text-align: left; text-shadow: 0 -1px 1px rgba(255,255,255,.8) }',
-				'#kernjs_instructions a { color: #009bd5; text-align: center; }',
-				'#kernjs_instructions a:visited { color: #009bd5 }',
-				'#kernjs_instructions textarea { width: 440px; height: 180px; padding: 20px; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 5px; border-color: #BBB; }',
-				'p#kernjs_note { font-size: 13px; text-align: center; }',
+				'.kernjs_overlay { position: absolute; height: 100%; width: 100%; z-index: 1000000001; overflow: none; background: rgba(0,0,0,.8); opacity: 0; font-family: Georgia; color: #222; }',
+				'.kernjs_container { background: #EEE; margin: 0 auto; width: 570px; margin-top: 40px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; }',
+				'.kernjs_instructions { margin: 0 auto; text-align: center; padding: 40px; }',
+				'.kernjs_p { font-size: 18px; line-height: 24px; color: #555; text-align: left; text-shadow: 0 -1px 1px rgba(255,255,255,.8) }',
+				'.kernjs_instructions a { color: #009bd5 !important; text-align: center !important }',
+				'.kernjs_instructions a:visited { color: #009bd5 !important }',
+				'.kernjs_instructions textarea { width: 100% !important; height: 180px !important; -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 5px !important; border-color: #BBB !important; }',
+				'.kernjs_note { font-size: 13px; text-align: center; }',
+				'.kernjs_style { font-style: italic; }',
+				'.kernjs_button { list-style-type: none; }',
+				'.kernjs_finish { padding-left: 0; text-align: center; }',
+				'.kernjs_contact { text-align: center; font-size: 14px; }',
 			'</style>',
 			
-			'<div id="kernjs_overlay">',
-				'<div id="kernjs_container">',
-					'<div id="kernjs_instructions">',
-						'<p>Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully simple <a href="http://www.letteringjs.com\">Lettering.JS</a> to create the necessary style hooks.</p>',
+			'<div class="kernjs_overlay">',
+				'<div class="kernjs_container">',
+					'<div class="kernjs_instructions">',
+						'<div class="kernjs_p">Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use <a class="kernjs_style" href="http://www.letteringjs.com\">Lettering.JS</a> to create the necessary style hooks.</p>',
 						'<textarea>',
 							generateCSS(adjustments),
 						'</textarea>',
-						'<br/><br/><a href="#" id="kernjs_continue">Continue Editing</a>',
-						'<p id="kernjs_note">Please email <a href="mailto:contact@kernjs.com">contact@kernjs.com</a> if you have any trouble</p>',
+						'<ul class="kernjs_button kernjs_finish">',
+							'<li><a class="btn" href="#"><span class="kernjs_continue">Continue Editing</span></a></li>',
+						'</ul>',
+						'<div class="kernjs_contact">Please email <a class="kernjs_style" href="mailto:contact@kernjs.com">contact@kernjs.com</a> if you have any trouble</div></div>',
 					'</div>',
 				'</div',
 			'</div>'
 		].join('\n');
 		jQuery(document.body).prepend(outputPanel);
-		jQuery("#kernjs_overlay").animate({
-			opacity: 1
-		}, {
-			duration: 300
+		jQuery(".kernjs_overlay").animate({ "opacity": 1 }, function() {
+			// callback function here if we want to add any animations for the overlayed content later
 		});
 		
-		jQuery("#kernjs_continue").click(function() {
-			$("#kernjs_overlay").fadeOut();
+		jQuery(".kernjs_continue").click(function() {
+			$(".kernjs_overlay").fadeOut(function() {
+				$(this).detach();
+			});
 		});
 	});
-	
 }
 
 function generateCSS(adjustments) {
@@ -143,7 +150,7 @@ function generateCSS(adjustments) {
 	for(x in adjustments) {
 		if(adjustments.hasOwnProperty(x)) {
 			concatCSS = [
-				"#" + x + " {",
+				"." + x + " {",
 				'\t' + 'margin-left: ' + adjustments[x] + 'px;',
 				'}'
 				].join('\n');
@@ -177,7 +184,7 @@ function injector(t, splitter, klass, after) {
 	var a = t.text().split(splitter), inject = '';
 	if (a.length > 1) {
 		jQuery(a).each(function(i, item) {
-			inject += '<span id="'+klass+(i+1)+'">'+item+'</span>'+after;
+			inject += '<span class="'+klass+(i+1)+'">'+item+'</span>'+after;
 		});	
 		t.empty().append(inject);
 	}
