@@ -17,7 +17,7 @@ function kern() {
 		['<style>',
 			'.kernjs_panel * { outline: none }',
 			'.kernjs_panel { text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000));}',
-			'.kernjs_panel ul { list-style-type: none; display: inline-block; padding-top: 3px; position: relative; }',
+			'.kernjs_panel .kernjs_button { padding-top: 20px; }',
 			'.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
 			'.kernjs_button .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
 			'.kernjs_button .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
@@ -27,9 +27,9 @@ function kern() {
 			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
 		'</style>',
 		'<div class="kernjs_panel">',
-			'<ul class="kernjs_button">',
-				'<li><a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a></li>',
-			'</ul>',
+			'<div class="kernjs_button">',
+				'<a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a>',
+			'</div>',
 		'</div>'
 	].join('\n');
 
@@ -112,7 +112,7 @@ function kern() {
 				'.kernjs_note { font-size: 13px; text-align: center; }',
 				'.kernjs_style { font-style: italic; }',
 				'.kernjs_button { list-style-type: none; }',
-				'.kernjs_finish { padding-left: 0; text-align: center; }',
+				'.kernjs_finish { padding: 15px 0 20px 0; text-align: center; }',
 				'.kernjs_contact { text-align: center; font-size: 14px; }',
 			'</style>',
 			
@@ -123,9 +123,9 @@ function kern() {
 						'<textarea>',
 							generateCSS(adjustments),
 						'</textarea>',
-						'<ul class="kernjs_button kernjs_finish">',
+						'<div class="kernjs_button kernjs_finish">',
 							'<li><a class="btn" href="#"><span class="kernjs_continue">Continue Editing</span></a></li>',
-						'</ul>',
+						'</div>',
 						'<div class="kernjs_contact">Please email <a class="kernjs_style" href="mailto:contact@kernjs.com">contact@kernjs.com</a> if you have any trouble</div></div>',
 					'</div>',
 				'</div',
