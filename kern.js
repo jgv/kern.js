@@ -66,7 +66,7 @@ function kern() {
 				if(previousColor!==0) { jQuery(activeEl).css('color', previousColor).css('opacity', .5); }
 				activeEl = event.target; // Set activeEl to represent the clicked letter.
 				previousColor = jQuery(activeEl).css('color');
-				jQuery(activeEl).css('color', '#ff7200').css('opacity', 1);
+				jQuery(activeEl).css('color', '#00baff').css('opacity', 1);
 				lastX = event.pageX;
 				if(typeof(adjustments[jQuery(activeEl).attr("class")]) === 'undefined')
 				{
