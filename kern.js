@@ -11,15 +11,7 @@
 * Date: Monday, March 7 2011
 */
 
-if (typeof jQuery === 'undefined') {
-	var includejquery = document.createElement("script");
-	includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
-	document.body.appendChild(includejquery);
-	includejquery.onload = kern;
-}
-else {
-	kern();
-}
+(function() {
 
 function kern() {
 	var activeEl, unit, increment, kerning, adjustments, thePanel, activeHeader;
@@ -202,3 +194,5 @@ function injector(t, splitter, klass, after) {
 		t.empty().append(inject);
 	}
 }
+
+})();
