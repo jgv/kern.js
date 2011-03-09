@@ -2,7 +2,7 @@
 * Kern.JS 0.1
 
 * Copyright 2011, Brendan Stromberger, www.brendanstromberger.com
-* Special thanks to Mathew Luebbert for significant code contributions
+* Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
 * Thanks to the Lettering.JS team for being so cool.
 * Released under the WTFPL license 
 * http://sam.zoy.org/wtfpl/
