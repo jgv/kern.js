@@ -14,10 +14,9 @@
 (function() {
 
     function kern() {
-	      var activeEl, unit, increment, kerning, adjustments, activeHeader;
+	      var activeEl, unit, increment, kerning, adjustments, activeHeader, lastX;;
 	      kerning = 0;
 	      adjustments = {};
-	      var lastX;
         var thePanelLocation = "http://github.com/jgv/kern.js/raw/master/css/panel.css"; // change this to wherever the css is being hosted
         var panelCss = document.createElement("link");
         panelCss.setAttribute("href", thePanelLocation);
@@ -38,46 +37,67 @@
         document.getElementsByTagName("body")[0].appendChild(thePanel);
 	      
 	      jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
-		        if(activeHeader !== this)
-		        {
+		        if(activeHeader !== this) {
 			          activeHeader = this;
-			          console.log(activeHeader);
+                if (window.console) {
+			              console.log(activeHeader);
+                }
 			          var el = findRootHeader(event.target);
-			          console.log(el);
+                if (window.console) {
+                    console.log(el);
+                }			          
 			          var previousColor = 0;
 			          var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
-			          console.log($(theHtml));
+                if (window.console) {
+			              console.log($(theHtml));                    
+                }			          
                 //			var theHtmlString = jQuery(theHtml).parent().parent().html();
                 //			console.log(jQuery(theHtml).parent().parent().html());
-			          jQuery(this).attr('unselectable', 'on').css('-moz-user-select', 'none').each(function() { this.onselectstart = function() { return false; }; } );
-			          jQuery(el).children().css('opacity', '.5');
-			          jQuery(this).mousedown(function(event) { // Listens for clicks on the newly created span objects.
-				            if(previousColor!==0) { jQuery(activeEl).css('color', previousColor).css('opacity', .5); }
-				            activeEl = event.target; // Set activeEl to represent the clicked letter.
-				            previousColor = jQuery(activeEl).css('color');
-				            jQuery(activeEl).css('color', '#00baff').css('opacity', 1);
-				            lastX = event.pageX;
-				            if(typeof(adjustments[jQuery(activeEl).attr("class")]) === 'undefined')
-				            {
-					              adjustments[jQuery(activeEl).attr("class")] = 0;
-				            }
-				            kerning = adjustments[jQuery(activeEl).attr("class")];
-				            function MoveHandler(event){
-					              var moveX = event.pageX - lastX;
-					              if(moveX !== 0)
-					              {
-						                lastX = event.pageX;
-						                kerning += moveX;
-						                adjustments[jQuery(activeEl).attr("class")] = kerning;
-						                jQuery(activeEl).css('margin-left', kerning);
-						                generateCSS(adjustments, unit, increment);
-					              }
-				            }
-				            jQuery(this).bind('mousemove', MoveHandler);
-				            jQuery(this).mouseup(function(event){
-					              jQuery(this).unbind('mousemove', MoveHandler);
-				            });
-			          }); // end el click
+			          jQuery(this)
+                    .attr('unselectable', 'on')
+                    .css('-moz-user-select', 'none')
+                    .each(function() { 
+                        this.onselectstart = function() { 
+                            return false; 
+                        }; 
+                    });
+
+			          jQuery(el)
+                    .children()
+                    .css('opacity', '.5');
+
+			          jQuery(this)
+                    .mousedown(function(event) { // Listens for clicks on the newly created span objects.
+				                if (previousColor !== 0) { 
+                            jQuery(activeEl)
+                                .css('color', previousColor)
+                                .css('opacity', .5); 
+                        }
+				                activeEl = event.target; // Set activeEl to represent the clicked letter.
+				                previousColor = jQuery(activeEl).css('color');
+				                jQuery(activeEl)
+                            .css('color', '#00baff')
+                            .css('opacity', 1);
+				                lastX = event.pageX;
+				                if(typeof(adjustments[jQuery(activeEl).attr("class")]) === 'undefined') {				               
+					                  adjustments[jQuery(activeEl).attr("class")] = 0;
+				                }
+				                kerning = adjustments[jQuery(activeEl).attr("class")];
+				                function MoveHandler(event){
+					                  var moveX = event.pageX - lastX;
+					                  if(moveX !== 0) {					                  
+						                    lastX = event.pageX;
+						                    kerning += moveX;
+						                    adjustments[jQuery(activeEl).attr("class")] = kerning;
+						                    jQuery(activeEl).css('margin-left', kerning);
+						                    generateCSS(adjustments, unit, increment);
+					                  }
+				                }
+				                jQuery(this).bind('mousemove', MoveHandler);
+				                jQuery(this).mouseup(function(event){
+					                  jQuery(this).unbind('mousemove', MoveHandler);
+				                });
+			              }); // end el click
 		        }
 	      });
 
@@ -162,8 +182,7 @@
         function findRootHeader(el){
 	          var toReturn;
 	          toReturn = el;
-	          while(jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0)
-	          {
+	          while(jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0) {
 		            toReturn = jQuery(toReturn).parent();
 	          }
 	          return toReturn;
@@ -171,8 +190,7 @@
 
 
         function splitter(el) {
-	          if(jQuery(el).children().length === 0)
-	          {
+	          if(jQuery(el).children().length === 0) {
 		            return injector(jQuery(el), '', 'char', '');
 	          }
 	          return jQuery.each(el.children(), function(index, value){
@@ -219,7 +237,8 @@
 		        
 		        jQuery(".kernjs_continue").click(function() {
 			          $(".kernjs_overlay").fadeOut(function() {
-				            $(this).detach();
+                    console.log($(this));
+				            $("#kernjs").detach();
 			          });
 		        });
 	      });             
