@@ -211,7 +211,7 @@
 						outputHtml += "</div>";
 
             outputPanel.innerHTML = outputHtml;            
-            document.getElementById("kernjs").appendChild(document.body);
+            document.getElementsByTagName("body")[0].appendChild(outputPanel);
 
 		        jQuery(".kernjs_overlay").animate({ "opacity": 1 }, function() {
 			          // callback function here if we want to add any animations for the overlayed content later
