@@ -14,15 +14,15 @@
 (function() {
 
     function kern() {
-	      var activeEl, unit, increment, kerning, adjustments, thePanel, activeHeader;
+	      var activeEl, unit, increment, kerning, adjustments,  activeHeader;
 	      kerning = 0;
 	      adjustments = {};
 	      var lastX;
         var thePanelLocation = "http://github.com/jgv/kern.js/raw/master/css/panel.css"; // change this to wherever the css is being hosted
         var panelCss = document.createElement("link");
-        thePanel.setAttribute("href", thepanelLocation);
-        thePanel.setAttribute("rel", "stylesheet");
-        thePanel.setAttribute("type", "text/css");
+        panelCss.setAttribute("href", thePanelLocation);
+        panelCss.setAttribute("rel", "stylesheet");
+        panelCss.setAttribute("type", "text/css");
         document.getElementsByTagName("head")[0].appendChild(panelCss);
 
         var thePanel = document.createElement("div");
@@ -30,7 +30,7 @@
         thePanel.setAttribute("class", "kernjs_panel");
 
         var html = "<div class='kernjs_button'>";
-				html += "<a class='btn' href='#' class='kernjs_finish'><span>Finish Editing</span></a>",
+				html += "<a class='btn' href='#' class='kernjs_finish'><span>Finish Editing</span></a>";
 			  html += "</div>";
 
         thePanel.innerHTML = html;
@@ -38,7 +38,7 @@
         document.getElementsByTagName("body")[0].appendChild(thePanel);
 	      
 	      jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
-		        if(!(activeHeader === this))
+		        if(activeHeader !== this)
 		        {
 			          activeHeader = this;
 			          console.log(activeHeader);
@@ -186,6 +186,22 @@
 		        }
 	      });
 	      
+    function generateCSS(adjustments) {
+	      var x, concatCSS, theCSS;
+	      theCSS = [];
+	      for(x in adjustments) {
+		        if(adjustments.hasOwnProperty(x)) {
+			          concatCSS = [
+				            "." + x + " {",
+				            '\t' + 'margin-left: ' + adjustments[x] + 'px;',
+				            '}'
+				        ].join('\n');
+				        theCSS = theCSS + '\n' + concatCSS;
+		        }
+	      }
+	      return theCSS;
+    }
+
 	      var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
 		        
             var outputPanel = document.createElement("div");
@@ -217,52 +233,6 @@
 			          });
 		        });
 	      });
-    }
-
-    function generateCSS(adjustments) {
-	      var x, concatCSS, theCSS;
-	      theCSS = [];
-	      for(x in adjustments) {
-		        if(adjustments.hasOwnProperty(x)) {
-			          concatCSS = [
-				            "." + x + " {",
-				            '\t' + 'margin-left: ' + adjustments[x] + 'px;',
-				            '}'
-				        ].join('\n');
-				        theCSS = theCSS + '\n' + concatCSS;
-		        }
-	      }
-	      return theCSS;
-    }
-
-    function findRootHeader(el){
-	      var toReturn;
-	      toReturn = el;
-	      while(jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0)
-	      {
-		        toReturn = jQuery(toReturn).parent();
-	      }
-	      return toReturn;
-    }
-
-    function splitter(el) {
-	      if(jQuery(el).children().length === 0)
-	      {
-		        return injector(jQuery(el), '', 'char', '');
-	      }
-	      return jQuery.each(el.children(), function(index, value){
-		        splitter(value);
-	      });
-    }
-
-    function injector(t, splitter, klass, after) {
-	      var a = t.text().split(splitter), inject = '';
-	      if (a.length > 1) {
-		        jQuery(a).each(function(i, item) {
-			          inject += '<span class="'+klass+(i+1)+'">'+item+'</span>'+after;
-		        });	
-		        t.empty().append(inject);
-	      }
     }
 
     kern();
