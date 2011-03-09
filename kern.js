@@ -12,9 +12,8 @@
  */
 
 (function() {
-
     function kern() {
-	      var activeEl, unit, increment, kerning, adjustments, activeHeader, lastX;;
+	      var activeEl, unit, increment, kerning, adjustments, activeHeader, lastX;
 	      kerning = 0;
 	      adjustments = {};
         var thePanelLocation = "http://github.com/jgv/kern.js/raw/master/css/panel.css"; // change this to wherever the css is being hosted
@@ -32,9 +31,52 @@
 				html += "<a class='btn' href='#' class='kernjs_finish'><span>Finish Editing</span></a>";
 			  html += "</div>";
 
-        thePanel.innerHTML = html;
-        
+        thePanel.innerHTML = html;       
         document.getElementsByTagName("body")[0].appendChild(thePanel);
+
+        function generateCSS(adjustments) {
+	          var x, concatCSS, theCSS;
+	          theCSS = [];
+	          for(x in adjustments) {
+		            if(adjustments.hasOwnProperty(x)) {
+			              concatCSS = [
+				                "." + x + " {",
+				                '\t' + 'margin-left: ' + adjustments[x] + 'px;',
+				                '}'
+				            ].join('\n');
+				            theCSS = theCSS + '\n' + concatCSS;
+		            }
+	          }
+	          return theCSS;
+        }
+        
+        function findRootHeader(el){
+	          var toReturn;
+	          toReturn = el;
+	          while(jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0) {
+		            toReturn = jQuery(toReturn).parent();
+	          }
+	          return toReturn;
+        }
+
+        function injector(t, splitter, klass, after) {
+	          var a = t.text().split(splitter), inject = '';
+	          if (a.length > 1) {
+		            jQuery(a).each(function(i, item) {
+			              inject += '<span class="'+klass+(i+1)+'">'+item+'</span>'+after;
+		            });	
+		            t.empty().append(inject);
+	          }
+        }
+
+        function splitter(el) {
+	          if(jQuery(el).children().length === 0) {
+		            return injector(jQuery(el), '', 'char', '');
+	          }
+	          return jQuery.each(el.children(), function(index, value){
+		            splitter(value);
+	          });
+        }
 	      
 	      jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
 		        if(activeHeader !== this) {
@@ -50,9 +92,7 @@
 			          var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
                 if (window.console) {
 			              console.log($(theHtml));                    
-                }			          
-                //			var theHtmlString = jQuery(theHtml).parent().parent().html();
-                //			console.log(jQuery(theHtml).parent().parent().html());
+                }			                 
 			          jQuery(this)
                     .attr('unselectable', 'on')
                     .css('-moz-user-select', 'none')
@@ -71,7 +111,7 @@
 				                if (previousColor !== 0) { 
                             jQuery(activeEl)
                                 .css('color', previousColor)
-                                .css('opacity', .5); 
+                                .css('opacity', '.5'); 
                         }
 				                activeEl = event.target; // Set activeEl to represent the clicked letter.
 				                previousColor = jQuery(activeEl).css('color');
@@ -155,53 +195,6 @@
 			          });
 		        });
 	      });             
-
-        function generateCSS(adjustments) {
-	          var x, concatCSS, theCSS;
-	          theCSS = [];
-	          for(x in adjustments) {
-		            if(adjustments.hasOwnProperty(x)) {
-			              concatCSS = [
-				                "." + x + " {",
-				                '\t' + 'margin-left: ' + adjustments[x] + 'px;',
-				                '}'
-				            ].join('\n');
-				            theCSS = theCSS + '\n' + concatCSS;
-		            }
-	          }
-	          return theCSS;
-        }
-        
-        function findRootHeader(el){
-	          var toReturn;
-	          toReturn = el;
-	          while(jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0) {
-		            toReturn = jQuery(toReturn).parent();
-	          }
-	          return toReturn;
-        }
-
-
-        function splitter(el) {
-	          if(jQuery(el).children().length === 0) {
-		            return injector(jQuery(el), '', 'char', '');
-	          }
-	          return jQuery.each(el.children(), function(index, value){
-		            splitter(value);
-	          });
-        }
-
-        function injector(t, splitter, klass, after) {
-	          var a = t.text().split(splitter), inject = '';
-	          if (a.length > 1) {
-		            jQuery(a).each(function(i, item) {
-			              inject += '<span class="'+klass+(i+1)+'">'+item+'</span>'+after;
-		            });	
-		            t.empty().append(inject);
-	          }
-        }
     }
-
     kern();
-
 })();
