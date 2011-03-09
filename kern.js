@@ -25,7 +25,7 @@
         document.getElementsByTagName("head")[0].appendChild(panelCss);
 
         var thePanel = document.createElement("div");
-        thePanel.id = "kernjs";
+        thePanel.id = "panel";
         thePanel.setAttribute("class", "kernjs_panel");
 
         var html = "<div class='kernjs_button'>";
@@ -101,6 +101,7 @@
 		        }
 	      });
 
+	      
 	      jQuery(document).keydown(function(event) {
 		        if(activeEl) {
 			          if(adjustments[jQuery(activeEl).attr("class")]) { // If there are current adjustments already made for this letter
@@ -124,13 +125,14 @@
 	      var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
 		        
             var outputPanel = document.createElement("div");
-            thePanel.setAttribute("class", "kernjs_overlay");
+            outputPanel.id = "overlay";
+            outputPanel.setAttribute("class", "kernjs_overlay");
 
             var outputHtml = "<div class='kernjs_container'>";
-
 					  outputHtml += "<div class='kernjs_instructions'>";
             outputHtml += "<div class='kernjs_p'>";
-            outputHtml += "<p>Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use";
+            outputHtml += "<p>Looks awesome. Here\'s the CSS for your lovely letters.";
+            outputHtml += "Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use";
             outputHtml += "<a class='kernjs_style' href='http://www.letteringjs.com\'>Lettering.JS</a> to create the necessary style hooks.</p><br />";
             outputHtml += "<textarea>" + generateCSS(adjustments) + "</textarea>";
             outputHtml += "<div class='kernjs_button kernjs_finish'>";
@@ -140,29 +142,20 @@
             outputHtml += "</div>";
 						outputHtml += "</div>";
 
-            document.getElementsByTagName("body")[0].appendChild(thePanel);
-	      });   
+            outputPanel.innerHTML = outputHtml;            
+            document.getElementsByTagName("body")[0].appendChild(outputPanel);
 
-	      jQuery(document).keydown(function(event) {
-		        if(activeEl) {
-			          if(adjustments[jQuery(activeEl).attr("class")]) { // If there are current adjustments already made for this letter
-				            kerning = adjustments[jQuery(activeEl).attr("class")]; // Set the kerning variable to the previously made adjustments for this letter (stored inside the adjustments dictionary object)
-			          }
-			          if(event.which === 37) { // If left arrow key
-				            kerning--;
-				            jQuery(activeEl).css('margin-left', kerning);
-				            adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-				            generateCSS(adjustments, unit, increment);
-			          }
-			          if(event.which === 39) { // If right arrow key
-				            kerning++;
-				            jQuery(activeEl).css('margin-left', kerning);
-				            adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-				            generateCSS(adjustments, unit, increment);
-			          }
-		        }
-	      });
-	      
+		        jQuery(".kernjs_overlay").animate({ "opacity": 1 }, function() {
+			          // callback function here if we want to add any animations for the overlayed content later
+		        });
+		        
+		        jQuery(".kernjs_continue").click(function() {
+			          $(".kernjs_overlay").fadeOut(function() {
+                    console.log($(this));
+			          });
+		        });
+	      });             
+
         function generateCSS(adjustments) {
 	          var x, concatCSS, theCSS;
 	          theCSS = [];
@@ -207,41 +200,6 @@
 		            t.empty().append(inject);
 	          }
         }
-
-
-	      var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
-		        
-            var outputPanel = document.createElement("div");
-            outputPanel.id = "kernjs";
-            outputPanel.setAttribute("class", "kernjs_overlay");
-
-            var outputHtml = "<div class='kernjs_container'>";
-					  outputHtml += "<div class='kernjs_instructions'>";
-            outputHtml += "<div class='kernjs_p'>";
-            outputHtml += "<p>Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use";
-            outputHtml += "<a class='kernjs_style' href='http://www.letteringjs.com\'>Lettering.JS</a> to create the necessary style hooks.</p><br />";
-            outputHtml += "<textarea>" + generateCSS(adjustments) + "</textarea>";
-            outputHtml += "<div class='kernjs_button kernjs_finish'>";
-            outputHtml += "<li><a class='btn' href='#'><span class='kernjs_continue'>Continue Editing</span></a></li>";
-            outputHtml += "</div>";
-            outputHtml += "<div class='kernjs_contact'>Please email <a class='kernjs_style' href='mailto:contact@kernjs.com'>contact@kernjs.com</a> if you have any trouble</div></div>";
-            outputHtml += "</div>";
-						outputHtml += "</div>";
-
-            outputPanel.innerHTML = outputHtml;            
-            document.getElementsByTagName("body")[0].appendChild(outputPanel);
-
-		        jQuery(".kernjs_overlay").animate({ "opacity": 1 }, function() {
-			          // callback function here if we want to add any animations for the overlayed content later
-		        });
-		        
-		        jQuery(".kernjs_continue").click(function() {
-			          $(".kernjs_overlay").fadeOut(function() {
-                    console.log($(this));
-				            $("#kernjs").detach();
-			          });
-		        });
-	      });             
     }
 
     kern();
