@@ -1,0 +1,24 @@
+.kernjs_panel * { outline: none }
+.kernjs_panel { position: absolute; top: 0; z-index: 1000000000; text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border-bottom: 1px solid #333;}
+.kernjs_panel .kernjs_button { padding-top: 20px; }
+.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }
+.kernjs_button .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }
+.kernjs_button .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }
+.kernjs_button .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }
+.kernjs_button .btn span { color: #40411e; font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; }
+.kernjs_button a { text-decoration: none; }
+h1, h2, h3, h4, h5, h6 { cursor: pointer; }
+
+
+.kernjs_overlay { position: absolute; top: 0; height: 100%; width: 100%; z-index: 100000000000000; overflow: none; background: rgba(0,0,0,.8); opacity: 0; font-family: Georgia; color: #222; }
+.kernjs_container { background: #EEE; margin: 0 auto; width: 570px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; }
+.kernjs_instructions { margin: 0 auto; text-align: center; padding: 40px; }
+.kernjs_p { font-size: 18px; line-height: 24px; color: #555; text-align: left; text-shadow: 0 -1px 1px rgba(255,255,255,.8) }
+.kernjs_instructions a { color: #009bd5 !important; text-align: center !important }
+.kernjs_instructions a:visited { color: #009bd5 !important }
+.kernjs_instructions textarea { width: 100% !important; height: 180px !important; -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 5px !important; border-color: #BBB !important; }
+.kernjs_note { font-size: 13px; text-align: center; }
+.kernjs_style { font-style: italic; }
+.kernjs_button { list-style-type: none; }
+.kernjs_finish { padding: 15px 0 20px 0; text-align: center; }
+.kernjs_contact { text-align: center; font-size: 14px; }
