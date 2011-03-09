@@ -194,7 +194,7 @@
 	      var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
 		        
             var outputPanel = document.createElement("div");
-            outputPanel.id("kernjs");
+            outputPanel.id = "kernjs";
             outputPanel.setAttribute("class", "kernjs_overlay");
 
             var outputHtml = "<div class='kernjs_container'>";
