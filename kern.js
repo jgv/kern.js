@@ -14,7 +14,7 @@
 (function() {
 
     function kern() {
-	      var activeEl, unit, increment, kerning, adjustments,  activeHeader;
+	      var activeEl, unit, increment, kerning, adjustments, activeHeader;
 	      kerning = 0;
 	      adjustments = {};
 	      var lastX;
@@ -120,8 +120,9 @@
             outputHtml += "</div>";
 						outputHtml += "</div>";
 
-        document.getElementsByTagName("body")[0].appendChild(thePanel);
-	      
+            document.getElementsByTagName("body")[0].appendChild(thePanel);
+	      });   
+
 	      jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
 		        if(!(activeHeader === this))
 		        {
@@ -186,22 +187,22 @@
 		        }
 	      });
 	      
-    function generateCSS(adjustments) {
-	      var x, concatCSS, theCSS;
-	      theCSS = [];
-	      for(x in adjustments) {
-		        if(adjustments.hasOwnProperty(x)) {
-			          concatCSS = [
-				            "." + x + " {",
-				            '\t' + 'margin-left: ' + adjustments[x] + 'px;',
-				            '}'
-				        ].join('\n');
-				        theCSS = theCSS + '\n' + concatCSS;
-		        }
-	      }
-	      return theCSS;
-    }
-
+        function generateCSS(adjustments) {
+	          var x, concatCSS, theCSS;
+	          theCSS = [];
+	          for(x in adjustments) {
+		            if(adjustments.hasOwnProperty(x)) {
+			              concatCSS = [
+				                "." + x + " {",
+				                '\t' + 'margin-left: ' + adjustments[x] + 'px;',
+				                '}'
+				            ].join('\n');
+				            theCSS = theCSS + '\n' + concatCSS;
+		            }
+	          }
+	          return theCSS;
+        }
+        
 	      var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
 		        
             var outputPanel = document.createElement("div");
@@ -233,8 +234,9 @@
 			          });
 		        });
 	      });
+        
+        
+
+        kern();
     }
-
-    kern();
-
 })();
