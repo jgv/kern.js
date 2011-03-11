@@ -29,7 +29,7 @@ function kern() {
 	thePanel =
 		['<style>',
 			'.kernjs_panel * { outline: none }',
-			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; position: absolute; top: 0; z-index: 1000000000; text-align: center; height: 57px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border-bottom: 1px solid #333;}',
+			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; position: absolute; top: 0; z-index: 1000000000; text-align: center; height: 57px; width: 100%; margin: 0 auto; background: #eeeeee; background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); border-bottom: 1px solid #BBB;}',
 			'.kernjs_panel .kernjs_button { display: inline-block; }',
 			'.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
 			'.kernjs_button .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
@@ -39,7 +39,7 @@ function kern() {
 			'.kernjs_button a { margin-top: 10px; text-decoration: none; }',
 			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
 //			'span { -webkit-transition: margin .1s ease-out; -moz-transition: margin .1s ease-out; transition: margin .1 ease-out; }', Not sure if using animations actually improves the overall ux. almost seems to get in the way.
-			'.kernjs_unit { display: inline-block; color: white; padding-top: 8px; }',
+			'.kernjs_unit { display: inline-block; color: #222; padding-top: 8px; }',
 		'</style>',
 		'<div class="kernjs_panel">',
 			'<div class="kernjs_unitSelect">',
