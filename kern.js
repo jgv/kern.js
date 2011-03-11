@@ -1,5 +1,6 @@
 /*
-* Kern.JS 0.1
+* Kern.JS 0.2dev
+* PLEASE BE AWARE THAT THIS FILE IS A DEVELOPMENT VERSION AND MIGHT NOT EVEN WORK. I DON'T REALLY UNDERSTAND GIT.
 
 * Copyright 2011, Brendan Stromberger, www.brendanstromberger.com
 * Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
@@ -22,24 +23,33 @@ else {
 }
 
 function kern() {
-	var activeEl, unit, increment, kerning, adjustments, thePanel, activeHeader;
+	var activeEl, kerning, adjustments, thePanel, activeHeader, rotMode, emPx;
 	kerning = 0;
+	rotMode = false;
 	adjustments = {};
 	var lastX;
 	thePanel =
 		['<style>',
 			'.kernjs_panel * { outline: none }',
-			'.kernjs_panel { position: absolute; top: 0; z-index: 1000000000; text-align: center; height: 40px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border-bottom: 1px solid #333;}',
-			'.kernjs_panel .kernjs_button { padding-top: 20px; }',
+			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; position: absolute; top: 0; z-index: 1000000000; text-align: center; height: 57px; width: 100%; margin: 0 auto; background: -moz-linear-gradient(top, #45484d 0%, #000000 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); border-bottom: 1px solid #333;}',
+			'.kernjs_panel .kernjs_button { display: inline-block; }',
 			'.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
 			'.kernjs_button .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
 			'.kernjs_button .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
 			'.kernjs_button .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }',
-			'.kernjs_button .btn span { color: #40411e; font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; }',
-			'.kernjs_button a { text-decoration: none; }',
+			'.kernjs_button .btn span { color: #40411e;  }',
+			'.kernjs_button a { margin-top: 10px; text-decoration: none; }',
 			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
+//			'span { -webkit-transition: margin .1s ease-out; -moz-transition: margin .1s ease-out; transition: margin .1 ease-out; }', Not sure if using animations actually improves the overall ux. almost seems to get in the way.
+			'.kernjs_unit { display: inline-block; color: white; padding-top: 8px; }',
 		'</style>',
 		'<div class="kernjs_panel">',
+			'<div class="kernjs_unitSelect">',
+				'<form class="kernjs_unit" action="">',
+					'<input type="radio" name="kernjs_unit" value="em" checked /> em',
+					'<input type="radio" name="kernjs_unit" value="px" /> px',
+				'</form>',
+			'</div>',
 			'<div class="kernjs_button">',
 				'<a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a>',
 			'</div>',
@@ -47,19 +57,18 @@ function kern() {
 	].join('\n');
 
 	jQuery(document.body).prepend(thePanel);
+	jQuery(".kernjs_panel").after(jQuery("<div id='spacer'></div>").css('height', jQuery(".kernjs_panel").css("height")));
 	
 	jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
 		if(!(activeHeader === this))
 		{
 			activeHeader = this;
-			console.log(activeHeader);
+			var emRatio = $("<span />").appendTo(event.target).css('height', '1em').css('visibility', 'hidden');
+			emPx = emRatio.height(); emRatio.detach();
 			var el = findRootHeader(event.target);
-			console.log(el);
 			var previousColor = 0;
 			var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
-			console.log($(theHtml));
-//			var theHtmlString = jQuery(theHtml).parent().parent().html();
-//			console.log(jQuery(theHtml).parent().parent().html());
+			
 			jQuery(this).attr('unselectable', 'on').css('-moz-user-select', 'none').each(function() { this.onselectstart = function() { return false; }; } );
 			jQuery(el).children().css('opacity', '.5');
 			jQuery(this).mousedown(function(event) { // Listens for clicks on the newly created span objects.
@@ -78,10 +87,10 @@ function kern() {
 					if(moveX !== 0)
 					{
 						lastX = event.pageX;
-						kerning += moveX;
+						kerning += moveX;	
 						adjustments[jQuery(activeEl).attr("class")] = kerning;
-						jQuery(activeEl).css('margin-left', kerning);
-						generateCSS(adjustments, unit, increment);
+						jQuery(activeEl).css('margin-left', kerning.toString()+'px'); // make live adjustment in DOM
+						generateCSS(adjustments, emPx); // make stored adjustment in generated CSS
 					}
 				}
 				jQuery(this).bind('mousemove', MoveHandler);
@@ -99,15 +108,15 @@ function kern() {
 			}
 			if(event.which === 37) { // If left arrow key
 				kerning--;
-				jQuery(activeEl).css('margin-left', kerning);
+				jQuery(activeEl).css('margin-left', kerning.toString()+'px');
 				adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-				generateCSS(adjustments, unit, increment);
+				generateCSS(adjustments, emPx);
 			}
 			if(event.which === 39) { // If right arrow key
 				kerning++;
-				jQuery(activeEl).css('margin-left', kerning);
+				jQuery(activeEl).css('margin-left', kerning.toString()+'px');
 				adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-				generateCSS(adjustments, unit, increment);
+				generateCSS(adjustments, emPx);
 			}
 		}
 	});
@@ -134,7 +143,7 @@ function kern() {
 					'<div class="kernjs_instructions">',
 						'<div class="kernjs_p">Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use <a class="kernjs_style" href="http://www.letteringjs.com\">Lettering.JS</a> to create the necessary style hooks.</p><br/>',
 						'<textarea>',
-							generateCSS(adjustments),
+							generateCSS(adjustments, emPx),
 						'</textarea>',
 						'<div class="kernjs_button kernjs_finish">',
 							'<li><a class="btn" href="#"><span class="kernjs_continue">Continue Editing</span></a></li>',
@@ -157,17 +166,21 @@ function kern() {
 	});
 }
 
-function generateCSS(adjustments) {
+function generateCSS(adjustments, emPx) {
 	var x, concatCSS, theCSS;
 	theCSS = [];
+	var emFlag = $('input:radio[value=em]').is(':checked');
+	var pxFlag = $('input:radio[value=px]').is(':checked');
 	for(x in adjustments) {
 		if(adjustments.hasOwnProperty(x)) {
-			concatCSS = [
-				"." + x + " {",
-				'\t' + 'margin-left: ' + adjustments[x] + 'px;',
-				'}'
-				].join('\n');
-				theCSS = theCSS + '\n' + concatCSS;
+			var adj;
+			if(emFlag) {
+				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + (adjustments[x]/emPx).toString() + 'em', '}'].join('\n');
+			}
+			if(pxFlag) {
+				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + adjustments[x].toString() + 'px', '}'].join('\n');
+			}
+			theCSS = theCSS + '\n' + concatCSS;
 		}
 	}
 	return theCSS;
