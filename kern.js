@@ -171,9 +171,9 @@ function generateCSS(adjustments, emPx) {
 	var pxFlag = $('input:radio[value=px]').is(':checked');
 	for(x in adjustments) {
 		if(adjustments.hasOwnProperty(x)) {
-			var adj;
 			if(emFlag) {
-				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + (adjustments[x]/emPx).toString() + 'em', '}'].join('\n');
+				
+				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + (Math.round((adjustments[x]/emPx)*1000)/1000).toString() + 'em', '}'].join('\n');
 			}
 			if(pxFlag) {
 				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + adjustments[x].toString() + 'px', '}'].join('\n');
