@@ -1,7 +1,5 @@
 /*
-* Kern.JS 0.2dev
-* PLEASE BE AWARE THAT THIS FILE IS A DEVELOPMENT VERSION AND MIGHT NOT EVEN WORK. I DON'T REALLY UNDERSTAND GIT.
-
+* Kern.JS 0.2
 * Copyright 2011, Brendan Stromberger, www.brendanstromberger.com
 * Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
 * Thanks to the Lettering.JS team for being so cool.
