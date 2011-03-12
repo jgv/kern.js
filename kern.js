@@ -58,6 +58,7 @@ function kern() {
 	jQuery(".kernjs_panel").after(jQuery("<div id='spacer'></div>").css('height', jQuery(".kernjs_panel").css("height")));
 	
 	jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
+		event.preventDefault();
 		if(!(activeHeader === this))
 		{
 			activeHeader = this;
