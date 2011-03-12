@@ -1,25 +1,27 @@
 /*
-* Kern.JS 0.2.1
+* Kern.JS 0.2.2
 * Copyright 2011, Brendan Stromberger, www.brendanstromberger.com
 * Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
 * Thanks to the Lettering.JS team for being so cool.
 * Released under the WTFPL license 
 * http://sam.zoy.org/wtfpl/
-
 * Thanks to the Lettering.JS team for their amazing plugin and making the web a better place.
 * Date: Monday, March 7 2011
 */
-
-if (typeof jQuery === 'undefined') {
-	var includejquery = document.createElement("script");
-	includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
-	document.body.appendChild(includejquery);
-	includejquery.onload = kern;
+if(!(jQuery(".kernjs_panel").length))
+	{
+		if(typeof jQuery === 'undefined')
+	{
+		var includejquery = document.createElement("script");
+		includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
+		document.body.appendChild(includejquery);
+		includejquery.onload = kern;
+	}
+	else
+	{
+		kern();
+	}
 }
-else {
-	kern();
-}
-
 function kern() {
 	var activeEl, kerning, adjustments, thePanel, activeHeader, rotMode, emPx;
 	kerning = 0;
@@ -28,8 +30,8 @@ function kern() {
 	var lastX;
 	thePanel =
 		['<style>',
-			'.kernjs_panel * { outline: none }',
-			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; position: absolute; top: 0; z-index: 1000000000; text-align: center; height: 57px; width: 100%; margin: 0 auto; background: #eeeeee; background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); border-bottom: 1px solid #BBB;}',
+			'.kernjs_panel * { outline: none; }',
+			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; position: absolute; top: 0; z-index: 1000000000; text-align: center; opacity: 0; height: 58px; -webkit-transition: height .8s ease-in-out; -moz-transition: height .8s ease-in-out; transition: height .8s ease-in-out; width: 100%; margin: 0 auto; background: #eeeeee; background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); border-bottom: 1px solid #A9A9A9;}',
 			'.kernjs_panel .kernjs_button { display: inline-block; }',
 			'.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
 			'.kernjs_button .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
@@ -38,7 +40,6 @@ function kern() {
 			'.kernjs_button .btn span { color: #40411e;  }',
 			'.kernjs_button a { margin-top: 10px; text-decoration: none; }',
 			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
-//			'span { -webkit-transition: margin .1s ease-out; -moz-transition: margin .1s ease-out; transition: margin .1 ease-out; }', Not sure if using animations actually improves the overall ux. almost seems to get in the way.
 			'.kernjs_unit { display: inline-block; color: #222; padding-top: 8px; }',
 		'</style>',
 		'<div class="kernjs_panel">',
@@ -53,10 +54,11 @@ function kern() {
 			'</div>',
 		'</div>'
 	].join('\n');
-
 	jQuery(document.body).prepend(thePanel);
+	jQuery(".kernjs_panel").animate({
+	    opacity: 1,
+	});
 	jQuery(".kernjs_panel").after(jQuery("<div id='spacer'></div>").css('height', jQuery(".kernjs_panel").css("height")));
-	
 	jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
 		event.preventDefault();
 		if(!(activeHeader === this))
@@ -66,8 +68,7 @@ function kern() {
 			emPx = emRatio.height(); emRatio.detach();
 			var el = findRootHeader(event.target);
 			var previousColor = 0;
-			var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.
-			
+			var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.	
 			jQuery(this).attr('unselectable', 'on').css('-moz-user-select', 'none').each(function() { this.onselectstart = function() { return false; }; } );
 			jQuery(el).children().css('opacity', '.5');
 			jQuery(this).mousedown(function(event) { // Listens for clicks on the newly created span objects.
@@ -81,7 +82,8 @@ function kern() {
 					adjustments[jQuery(activeEl).attr("class")] = 0;
 				}
 				kerning = adjustments[jQuery(activeEl).attr("class")];
-				function MoveHandler(event){
+				function MoveHandler(event)
+				{
 					var moveX = event.pageX - lastX;
 					if(moveX !== 0)
 					{
@@ -99,7 +101,6 @@ function kern() {
 			}); // end el click
 		}
 	});
-
 	jQuery(document).keydown(function(event) {
 		if(activeEl) {
 			if(adjustments[jQuery(activeEl).attr("class")]) { // If there are current adjustments already made for this letter
@@ -119,7 +120,6 @@ function kern() {
 			}
 		}
 	});
-	
 	var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
 		var outputPanel = [
 			'<style>',
@@ -135,8 +135,7 @@ function kern() {
 				'.kernjs_button { list-style-type: none; }',
 				'.kernjs_finish { padding: 15px 0 20px 0; text-align: center; }',
 				'.kernjs_contact { text-align: center; font-size: 14px; }',
-			'</style>',
-			
+			'</style>',	
 			'<div class="kernjs_overlay">',
 				'<div class="kernjs_container">',
 					'<div class="kernjs_instructions">',
@@ -156,7 +155,6 @@ function kern() {
 		jQuery(".kernjs_overlay").animate({ "opacity": 1 }, function() {
 			// callback function here if we want to add any animations for the overlayed content later
 		});
-		
 		jQuery(".kernjs_continue").click(function() {
 			$(".kernjs_overlay").fadeOut(function() {
 				$(this).detach();
@@ -164,7 +162,6 @@ function kern() {
 		});
 	});
 }
-
 function generateCSS(adjustments, emPx) {
 	var x, concatCSS, theCSS;
 	theCSS = [];
@@ -173,7 +170,6 @@ function generateCSS(adjustments, emPx) {
 	for(x in adjustments) {
 		if(adjustments.hasOwnProperty(x)) {
 			if(emFlag) {
-				
 				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + (Math.round((adjustments[x]/emPx)*1000)/1000).toString() + 'em', '}'].join('\n');
 			}
 			if(pxFlag) {
@@ -184,7 +180,6 @@ function generateCSS(adjustments, emPx) {
 	}
 	return theCSS;
 }
-
 function findRootHeader(el){
 	var toReturn;
 	toReturn = el;
@@ -194,7 +189,6 @@ function findRootHeader(el){
 	}
 	return toReturn;
 }
-
 function splitter(el) {
 	if(jQuery(el).children().length === 0)
 	{
@@ -204,7 +198,6 @@ function splitter(el) {
 		splitter(value);
 	});
 }
-
 function injector(t, splitter, klass, after) {
 	var a = t.text().split(splitter), inject = '';
 	if (a.length > 1) {
