@@ -1,25 +1,25 @@
 /*
-* Kern.JS 0.2.2
+* Kern.JS 0.2.3
 * Copyright 2011, Brendan Stromberger, www.brendanstromberger.com
 * Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
 * Thanks to the Lettering.JS team for being so cool.
 * Released under the WTFPL license 
 * http://sam.zoy.org/wtfpl/
 * Thanks to the Lettering.JS team for their amazing plugin and making the web a better place.
-* Date: Monday, March 7 2011
+* Date: Monday, March 14 2011
 */
-if(!(jQuery(".kernjs_panel").length))
+if(!(jQuery(".kernjs_panel").length)) // Prevent Kern.JS from loading multiple copies on the same page.
 	{
-		if(typeof jQuery === 'undefined')
-	{
-		var includejquery = document.createElement("script");
-		includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
-		document.body.appendChild(includejquery);
-		includejquery.onload = kern;
-	}
+		if(typeof jQuery === 'undefined') // Load jQuery if it doesn't already exist in the page.
+		{
+			var includejquery = document.createElement("script");
+			includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
+			document.body.appendChild(includejquery);
+			includejquery.onload = kern;
+		}
 	else
 	{
-		kern();
+		kern(); // Now that we know jQuery is loaded, activate Kern.JS!
 	}
 }
 function kern() {
@@ -31,22 +31,23 @@ function kern() {
 	thePanel =
 		['<style>',
 			'.kernjs_panel * { outline: none; }',
-			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; position: absolute; top: 0; z-index: 1000000000; text-align: center; opacity: 0; height: 58px; -webkit-transition: height .8s ease-in-out; -moz-transition: height .8s ease-in-out; transition: height .8s ease-in-out; width: 100%; margin: 0 auto; background: #eeeeee; background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); border-bottom: 1px solid #A9A9A9;}',
+			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; text-transform: none; position: absolute; top: 0; z-index: 1000000000; text-align: center; opacity: 0; height: 58px; -webkit-transition: height .8s ease-in-out; -moz-transition: height .8s ease-in-out; transition: height .8s ease-in-out; width: 100%; margin: 0 auto; background: #eeeeee; background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); border-bottom: 1px solid #A9A9A9;}',
 			'.kernjs_panel .kernjs_button { display: inline-block; }',
 			'.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
-			'.kernjs_button .btn span { display: inline-block; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
+			'.kernjs_button .btn span { display: inline-block; margin: 0; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
 			'.kernjs_button .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
 			'.kernjs_button .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }',
-			'.kernjs_button .btn span { color: #40411e;  }',
-			'.kernjs_button a { margin-top: 10px; text-decoration: none; }',
+			'.kernjs_button .btn span { color: #40411e; }',
+			'.kernjs_button a { margin: 10px 0 0 0; text-decoration: none; padding: 0; border: none; }',
 			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
-			'.kernjs_unit { display: inline-block; color: #222; padding-top: 8px; }',
+			'.kernjs_unit input { display: inline-block; color: #222; padding: 0 0 0 0; margin: 14px 0 0 0; width: auto; height: auto; border: none;  }',
+			'.kernjs_unit label { color: #222 }',
 		'</style>',
 		'<div class="kernjs_panel">',
 			'<div class="kernjs_unitSelect">',
 				'<form class="kernjs_unit" action="">',
-					'<input type="radio" name="kernjs_unit" value="em" checked /> em',
-					'<input type="radio" name="kernjs_unit" value="px" /> px',
+					'<input type="radio" id="em" name="kernjs_unit" value="em" checked /><label for="em">em</label>',
+					'<input type="radio" id="px" name="kernjs_unit" value="px" /><label for="px">px</label>',
 				'</form>',
 			'</div>',
 			'<div class="kernjs_button">',
@@ -60,13 +61,13 @@ function kern() {
 	});
 	jQuery(".kernjs_panel").after(jQuery("<div id='spacer'></div>").css('height', jQuery(".kernjs_panel").css("height")));
 	jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
-		event.preventDefault();
+		event.preventDefault(); // Prevent headers that are also links from following the URL while Kern.JS is active.
 		if(!(activeHeader === this))
 		{
 			activeHeader = this;
-			var emRatio = $("<span />").appendTo(event.target).css('height', '1em').css('visibility', 'hidden');
-			emPx = emRatio.height(); emRatio.detach();
-			var el = findRootHeader(event.target);
+			var emRatio = $("<span />").appendTo(event.target).css('height', '1em').css('visibility', 'hidden'); // This little guy finds the pixel size of 1em.
+			emPx = emRatio.height(); emRatio.detach(); // Retrieves the height value from emRatio, store it, and destroy emRatio since we don't need it anymore.
+			var el = findRootHeader(event.target); // I don't remember what this does.
 			var previousColor = 0;
 			var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.	
 			jQuery(this).attr('unselectable', 'on').css('-moz-user-select', 'none').each(function() { this.onselectstart = function() { return false; }; } );
@@ -124,7 +125,7 @@ function kern() {
 		var outputPanel = [
 			'<style>',
 				'.kernjs_overlay { position: absolute; top: 0; height: 100%; width: 100%; z-index: 100000000000000; overflow: none; background: rgba(0,0,0,.8); opacity: 0; font-family: Georgia; color: #222; }',
-				'.kernjs_container { background: #EEE; margin: 0 auto; width: 570px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; }',
+				'.kernjs_container { background: #EEE; margin: 0 auto; width: 570px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; text-transform: none; }',
 				'.kernjs_instructions { margin: 0 auto; text-align: center; padding: 40px; }',
 				'.kernjs_p { font-size: 18px; line-height: 24px; color: #555; text-align: left; text-shadow: 0 -1px 1px rgba(255,255,255,.8) }',
 				'.kernjs_instructions a { color: #009bd5 !important; text-align: center !important }',
@@ -162,6 +163,8 @@ function kern() {
 		});
 	});
 }
+
+//This function takes the stored adjustment data and constructs formatted CSS from it.
 function generateCSS(adjustments, emPx) {
 	var x, concatCSS, theCSS;
 	theCSS = [];
@@ -170,7 +173,7 @@ function generateCSS(adjustments, emPx) {
 	for(x in adjustments) {
 		if(adjustments.hasOwnProperty(x)) {
 			if(emFlag) {
-				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + (Math.round((adjustments[x]/emPx)*1000)/1000).toString() + 'em', '}'].join('\n');
+				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + (Math.round((adjustments[x]/emPx)*1000)/1000).toString() + 'em', '}'].join('\n'); // This sweet little line performs the pixel->em conversion. Booya.
 			}
 			if(pxFlag) {
 				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + adjustments[x].toString() + 'px', '}'].join('\n');
@@ -180,6 +183,8 @@ function generateCSS(adjustments, emPx) {
 	}
 	return theCSS;
 }
+
+//I don't remember what you do, little function, but I will find out, someday.
 function findRootHeader(el){
 	var toReturn;
 	toReturn = el;
@@ -189,6 +194,8 @@ function findRootHeader(el){
 	}
 	return toReturn;
 }
+
+// The following lines are modified versions of Lettering.JS functions. Using these allows Lettering.JS and Kern.JS to work together well.
 function splitter(el) {
 	if(jQuery(el).children().length === 0)
 	{
