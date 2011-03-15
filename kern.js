@@ -1,27 +1,26 @@
 /*
-* Kern.JS 0.2.3
+* Kern.JS 0.2.4
 * Copyright 2011, Brendan Stromberger, www.brendanstromberger.com
 * Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
 * Thanks to the Lettering.JS team for being so cool.
 * Released under the WTFPL license 
 * http://sam.zoy.org/wtfpl/
 * Thanks to the Lettering.JS team for their amazing plugin and making the web a better place.
-* Date: Monday, March 14 2011
+* Date: Tuesday, March 15 2011
 */
-if(!(jQuery(".kernjs_panel").length)) // Prevent Kern.JS from loading multiple copies on the same page.
-	{
-		if(typeof jQuery === 'undefined') // Load jQuery if it doesn't already exist in the page.
-		{
-			var includejquery = document.createElement("script");
-			includejquery.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
-			document.body.appendChild(includejquery);
-			includejquery.onload = kern;
-		}
-	else
-	{
+if(typeof jQuery == 'undefined') { // Load jQuery if it doesn't already exist in the page.
+		var jq = document.createElement("script");
+		jq.onload = kern;
+		jq.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
+		document.body.appendChild(jq);
+}
+
+else {
+	if(!(jQuery(".kernjs_panel").length)) { // Prevent Kern.JS from loading multiple copies on the same page.
 		kern(); // Now that we know jQuery is loaded, activate Kern.JS!
 	}
 }
+
 function kern() {
 	var activeEl, kerning, adjustments, thePanel, activeHeader, rotMode, emPx;
 	kerning = 0;
