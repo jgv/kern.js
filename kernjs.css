@@ -1,25 +1,145 @@
-.kernjs_panel * { outline: none; }
-.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; text-transform: none; position: absolute; top: 0; z-index: 1000000000; text-align: center; opacity: 0; height: 58px; -webkit-transition: height .8s ease-in-out; -moz-transition: height .8s ease-in-out; transition: height .8s ease-in-out; width: 100%; margin: 0 auto; background: #eeeeee; background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); border-bottom: 1px solid #A9A9A9;}
-.kernjs_panel .kernjs_button { display: inline-block; }
-.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }
-.kernjs_button .btn span { display: inline-block; margin: 0; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }
-.kernjs_button .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }
-.kernjs_button .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }
-.kernjs_button .btn span { color: #40411e; }
-.kernjs_button a { margin: 10px 0 0 0; text-decoration: none; padding: 0; border: none; }
-h1, h2, h3, h4, h5, h6 { cursor: pointer; }
-.kernjs_unit input { display: inline-block; color: #222; padding: 0 0 0 0; margin: 14px 0 0 0; width: auto; height: auto; border: none;  }
-.kernjs_unit label { color: #222; float: none; clear: none; }
+.kernjs_panel * {
+    outline: none;
+}
+.kernjs_panel {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: none;
+    position: absolute;
+    top: 0;
+    z-index: 1000000000;
+    text-align: center;
+    height: 58px;
+    width: 100%;
+    margin: 0 auto;
+    background: url(noise.png) #f1f1f1;
+    border: 1px solid rgba(0,0,0,0.1);
+}
 
-.kernjs_overlay { position: absolute; top: 0; height: 100%; width: 100%; z-index: 100000000000000; overflow: none; background: rgba(0,0,0,.8); opacity: 0; font-family: Georgia; color: #222; }
-.kernjs_container { background: #EEE; margin: 0 auto; width: 570px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; text-transform: none; }
-.kernjs_instructions { margin: 0 auto; text-align: center; padding: 40px; }
-.kernjs_p { font-size: 18px; line-height: 24px; color: #555; text-align: left; text-shadow: 0 -1px 1px rgba(255,255,255,.8) }
-.kernjs_instructions a { color: #009bd5 !important; text-align: center !important }
-.kernjs_instructions a:visited { color: #009bd5 !important }
-.kernjs_instructions textarea { width: 100% !important; height: 180px !important; -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 5px !important; border-color: #BBB !important; }
-.kernjs_note { font-size: 13px; text-align: center; }
-.kernjs_style { font-style: italic; }
-.kernjs_button { list-style-type: none; }
-.kernjs_finish { padding: 15px 0 20px 0; text-align: center; }
-.kernjs_contact { text-align: center; font-size: 14px; }
+.kernjs_p em, .kernjs_p a {
+    font-weight: bold !important;
+    font-style: normal !important;
+    text-decoration: none;
+}
+
+.kernjs_p a:hover {
+    opacity: 0.7;
+}
+
+.kernjs_button .btn span {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 7px 0 0 0;
+    padding: 9px 20px;
+    background: url(noise.png) #333;
+    color: white;
+    font-weight: bold;
+}
+
+.kernjs_button .btn span:hover {
+    background-color: #222;
+}
+
+.kernjs_button .btn span:active {
+    background-color: #000;
+}
+
+.kernjs_button a {
+    font-size: 12px;
+    margin: 0;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+h1, h2, h3, h4, h5, h6, span, p, li {
+    cursor: pointer;
+}
+
+.kernjs_unit section {
+    padding: 8px 2px 0 2px;
+    display: inline-block;
+}
+
+.kernjs_panel input[type="button"] {
+    cursor: pointer;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.kernjs_overlay {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    z-index: 100000000000000;
+    overflow: none;
+    background: url(noise.png) rgba(0,0,0,.8);
+    opacity: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #222;
+}
+.kernjs_container {
+    -moz-box-shadow: 0 0 15px #000;
+    -webit-box-shadow: 0 0 15px #000;
+    box-shadow: 0 0 15px #000;
+    background: url(noise.png) #f1f1f1; 
+    margin: 0 auto;
+    text-transform: none;
+}
+.kernjs_instructions {
+    margin: 0 auto;
+    width: 540px;
+    padding: 40px;
+}
+.kernjs_p {
+    font-size: 24px;
+    line-height: 32px;
+    color: #555;
+    text-shadow: 0 -1px 1px rgba(255,255,255,1);
+}
+.kernjs_error {
+    text-align: center;
+}
+.kernjs_instructions a {
+    color: #009bd5 !important;
+    text-align: center !important
+}
+.kernjs_instructions a:visited {
+    color: #009bd5 !important
+}
+.kernjs_instructions textarea {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5x;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100% !important;
+    height: 180px !important;
+    border-color: #BBB !important;
+}
+.kernjs_note {
+    font-size: 13px;
+    text-align: center;
+}
+.kernjs_style {
+    font-style: italic;
+}
+.kernjs_button {
+    list-style-type: none;
+}
+.kernjs_finish {
+    padding: 15px 0 20px 0;
+    text-align: center;
+}
+.kernjs_contact {
+    text-align: center;
+    font-size: 14px;
+    padding-bottom: 25px;
+}
