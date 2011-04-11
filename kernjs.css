@@ -1,110 +1,110 @@
 .kernjs_panel * {
-    outline: none !important;
+    outline: none;
 }
 .kernjs_panel {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-    font-weight: 900 !important;
-    font-size: 16px !important;
-    text-transform: none !important;
-    position: absolute !important;
-    top: 0 !important;
-    z-index: 1000000000 !important;
-    text-align: center !important;
-    height: 58px !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #f1f1f1 !important;
-    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: none;
+    position: absolute;
+    top: 0;
+    z-index: 1000000000;
+    text-align: center;
+    height: 58px;
+    width: 100%;
+    margin: 0 auto;
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #f1f1f1;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .kernjs_p em, .kernjs_p a {
     font-weight: bold !important;
     font-style: normal !important;
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 .kernjs_p a:hover {
-    opacity: 0.7 !important;
+    opacity: 0.7;
 }
 
 .kernjs_button .btn span {
-    -moz-border-radius: 3px !important;
-    -webkit-border-radius: 3px !important;
-    border-radius: 3px !important;
-    display: inline-block !important;
-    margin: 7px 0 0 0 !important;
-    padding: 9px 20px !important;
-    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #333 !important;
-    color: white !important;
-    font-weight: bold !important;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 7px 0 0 0;
+    padding: 9px 20px;
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #333;
+    color: white;
+    font-weight: bold;
 }
 
 .kernjs_button .btn span:hover {
-    background-color: #222 !important;
+    background-color: #222;
 }
 
 .kernjs_button .btn span:active {
-    background-color: #000 !important;
+    background-color: #000;
 }
 
 .kernjs_button a {
-    font-size: 12px !important;
-    margin: 0 !important;
-    text-decoration: none !important;
-    padding: 0 !important;
-    border: none !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
+    font-size: 12px;
+    margin: 0;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 h1, h2, h3, h4, h5, h6, span, p, li {
-    cursor: pointer !important;
+    cursor: pointer;
 }
 
 .kernjs_unit section {
-    padding: 8px 2px 0 2px !important;
-    display: inline-block !important;
+    padding: 8px 2px 0 2px;
+    display: inline-block;
 }
 
 .kernjs_panel input[type="button"] {
-    cursor: pointer !important;
-    -moz-border-radius: 3px !important;
-    -webkit-border-radius: 3px !important;
-    border-radius: 3px !important;
-    border: 1px solid rgba(0,0,0,0.2) !important;
+    cursor: pointer;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
 }
 
 .kernjs_overlay {
-    position: absolute !important;
-    top: 0 !important;
-    height: 100% !important;
-    min-height: 100% !important;
-    width: 100% !important;
-    z-index: 100000000000000 !important;
-    text-align: center !important;
-    overflow: none !important;
-    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) rgba(0,0,0,0.85) !important;
-    opacity: 0 !important;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-    color: #222 !important;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    z-index: 100000000000000;
+    text-align: center;
+    overflow: none;
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) rgba(0,0,0,0.85);
+    opacity: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #222;
 }
 .kernjs_container {
-    -moz-box-shadow: 0 0 15px #000 !important;
-    -webit-box-shadow: 0 0 15px #000 !important;
-    box-shadow: 0 0 15px #000 !important;
-    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #f1f1f1 !important; 
-    margin: 0 auto !important;
-    text-transform: none !important;
+    -moz-box-shadow: 0 0 15px #000;
+    -webit-box-shadow: 0 0 15px #000;
+    box-shadow: 0 0 15px #000;
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #f1f1f1; 
+    margin: 0 auto;
+    text-transform: none;
 }
 .kernjs_instructions {
-    margin: 0 auto !important;
-    width: 540px !important;
-    padding: 40px !important;
+    margin: 0 auto;
+    width: 540px;
+    padding: 40px;
 }
 .kernjs_p {
-    font-size: 24px !important;
-    line-height: 32px !important;
-    color: #555 !important;
-    text-shadow: 0 -1px 1px rgba(255,255,255,1) !important;
+    font-size: 24px;
+    line-height: 32px;
+    color: #555;
+    text-shadow: 0 -1px 1px rgba(255,255,255,1);
 }
 .kernjs_error {
     text-align: center !important;
@@ -114,42 +114,42 @@ h1, h2, h3, h4, h5, h6, span, p, li {
 }
 .kernjs_instructions a {
     color: #009bd5 !important;
-    text-align: center !important;
+    text-align: center !important
 }
 .kernjs_instructions a:visited {
-    color: #009bd5 !important;
+    color: #009bd5 !important
 }
 .kernjs_instructions textarea {
-    -webkit-border-radius: 5px !important;
-    -moz-border-radius: 5px !important;
-    border-radius: 5px !important;
-    padding: 10px !important;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 10px;
     width: 100% !important;
     height: 180px !important;
     border: 1px solid #BBB !important;
 }
 .kernjs_note {
-    font-size: 13px !important;
-    text-align: center !important;
+    font-size: 13px;
+    text-align: center;
 }
 .kernjs_style {
-    font-style: italic !important;
+    font-style: italic;
 }
 .kernjs_button {
-    list-style-type: none !important;
+    list-style-type: none;
 }
 .kernjs_finish {
-    padding: 15px 0 20px 0 !important;
-    text-align: center !important;
+    padding: 15px 0 20px 0;
+    text-align: center;
 }
 .kernjs_contact {
-    text-align: center !important;
-    font-size: 14px !important;
-    padding-bottom: 25px !important;
+    text-align: center;
+    font-size: 14px;
+    padding-bottom: 25px;
 }
 
 #kernjs_logo {
-    padding-top: 10px !important;
+    padding-top: 10px;
 }
 
 .kernjs_overlay h6 {
