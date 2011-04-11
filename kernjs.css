@@ -14,7 +14,7 @@
     width: 100%;
     margin: 0 auto;
     background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #f1f1f1;
-    border: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .kernjs_p em, .kernjs_p a {
@@ -82,7 +82,7 @@ h1, h2, h3, h4, h5, h6, span, p, li {
     z-index: 100000000000000;
     text-align: center;
     overflow: none;
-    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) rgba(0,0,0,.7);
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) rgba(0,0,0,0.85);
     opacity: 0;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #222;

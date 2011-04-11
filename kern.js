@@ -1,215 +1,266 @@
 /*
-* Kern.JS 0.2.4
-* Copyright 2011, Brendan Stromberger, www.brendanstromberger.com
+* Kern.JS 0.2.5
+* http://www.kernjs.com
+* Built by Brendan Stromberger, www.brendanstromberger.com
 * Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
-* Thanks to the Lettering.JS team for being so cool.
+* Special thanks to Jonathan Vingiano <jonathanvingiano.com> for making the Kern.js engine purr.
+* Thanks to the Lettering.JS team for being so cool and making the web a better place.
 * Released under the WTFPL license 
 * http://sam.zoy.org/wtfpl/
-* Thanks to the Lettering.JS team for their amazing plugin and making the web a better place.
-* Date: Tuesday, March 15 2011
+* Date: Sunday, April 10 2011
 */
-if(typeof jQuery == 'undefined') { // Load jQuery if it doesn't already exist in the page.
-		var jq = document.createElement("script");
-		jq.onload = kern;
-		jq.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js";
-		document.body.appendChild(jq);
-}
+ (function() {
+    function kern() {
+        var activeEl,
+        kerning,
+        adjustments,
+        thePanel,
+        thePanelLocation,
+        panelCss,
+        html,
+        activeHeader,
+        emPx,
+        lastX,
+        unitFlag,
+        location;
+        location = "https://github.com/bstrom87/kern.js/raw/master/";
+        kerning = 0;
+        adjustments = {};
 
-else {
-	if(!(jQuery(".kernjs_panel").length)) { // Prevent Kern.JS from loading multiple copies on the same page.
-		kern(); // Now that we know jQuery is loaded, activate Kern.JS!
-	}
-}
+        thePanelLocation = "kernjs.css";
 
-function kern() {
-	var activeEl, kerning, adjustments, thePanel, activeHeader, rotMode, emPx;
-	kerning = 0;
-	rotMode = false;
-	adjustments = {};
-	var lastX;
-	thePanel =
-		['<style>',
-			'.kernjs_panel * { outline: none; }',
-			'.kernjs_panel { font-family: "Georgia"; font-weight: 600; font-style: italic; font-size: 14px; text-transform: none; position: absolute; top: 0; z-index: 1000000000; text-align: center; opacity: 0; height: 58px; -webkit-transition: height .8s ease-in-out; -moz-transition: height .8s ease-in-out; transition: height .8s ease-in-out; width: 100%; margin: 0 auto; background: #eeeeee; background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); border-bottom: 1px solid #A9A9A9;}',
-			'.kernjs_panel .kernjs_button { display: inline-block; }',
-			'.kernjs_button .btn { display: inline-block; -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 15px 20px rgba(0,0,0,.); -webkit-transition: -webkit-box-shadow .1s ease-in-out; -moz-transition: -moz-box-shadow .1s ease-in-out; -o-transition: -o-box-shadow .1s ease-in-out; transition: box-shadow .1s ease-in-out; }',
-			'.kernjs_button .btn span { display: inline-block; margin: 0; padding: 9px 20px; text-shadow: 0 -1px 1px rgba(255,255,255,.8); background: #e5e696; background: -moz-linear-gradient(top, #e5e696 0%, #d1d360 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e696), color-stop(100%,#d1d360)); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -moz-box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); box-shadow: inset 0 -1px 1px rgba(255,255,255,.15); -webkit-transition: -webkit-transform .2s ease-in-out; -moz-transition: -moz-transform .2s ease-in-out; -o-transition: -o-transform .2s ease-in-out; transition: transform .2s ease-in-out; }',
-			'.kernjs_button .btn:active { -webkit-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); -moz-box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); box-shadow: 0 8px 0 #abad4f, 0 12px 10px rgba(0,0,0,.2); }',
-			'.kernjs_button .btn:active span { -webkit-transform: translate(0, 4px); -moz-transform: translate(0, 4px); -o-transform: translate(0, 4px); transform: translate(0, 4px); }',
-			'.kernjs_button .btn span { color: #40411e; }',
-			'.kernjs_button a { margin: 10px 0 0 0; text-decoration: none; padding: 0; border: none; }',
-			'h1, h2, h3, h4, h5, h6 { cursor: pointer; }',
-			'.kernjs_unit input { display: inline-block; color: #222; padding: 0 0 0 0; margin: 14px 0 0 0; width: auto; height: auto; border: none;  }',
-			'.kernjs_unit label { color: #222 }',
-		'</style>',
-		'<div class="kernjs_panel">',
-			'<div class="kernjs_unitSelect">',
-				'<form class="kernjs_unit" action="">',
-					'<input type="radio" id="em" name="kernjs_unit" value="em" checked /><label for="em">em</label>',
-					'<input type="radio" id="px" name="kernjs_unit" value="px" /><label for="px">px</label>',
-				'</form>',
-			'</div>',
-			'<div class="kernjs_button">',
-				'<a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a>',
-			'</div>',
-		'</div>'
-	].join('\n');
-	jQuery(document.body).prepend(thePanel);
-	jQuery(".kernjs_panel").animate({
-	    opacity: 1,
-	});
-	jQuery(".kernjs_panel").after(jQuery("<div id='spacer'></div>").css('height', jQuery(".kernjs_panel").css("height")));
-	jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
-		event.preventDefault(); // Prevent headers that are also links from following the URL while Kern.JS is active.
-		if(!(activeHeader === this))
-		{
-			activeHeader = this;
-			var emRatio = $("<span />").appendTo(event.target).css('height', '1em').css('visibility', 'hidden'); // This little guy finds the pixel size of 1em.
-			emPx = emRatio.height(); emRatio.detach(); // Retrieves the height value from emRatio, store it, and destroy emRatio since we don't need it anymore.
-			var el = findRootHeader(event.target); // I don't remember what this does.
-			var previousColor = 0;
-			var theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.	
-			jQuery(this).attr('unselectable', 'on').css('-moz-user-select', 'none').each(function() { this.onselectstart = function() { return false; }; } );
-			jQuery(el).children().css('opacity', '.5');
-			jQuery(this).mousedown(function(event) { // Listens for clicks on the newly created span objects.
-				if(previousColor!==0) { jQuery(activeEl).css('color', previousColor).css('opacity', .5); }
-				activeEl = event.target; // Set activeEl to represent the clicked letter.
-				previousColor = jQuery(activeEl).css('color');
-				jQuery(activeEl).css('color', '#00baff').css('opacity', 1);
-				lastX = event.pageX;
-				if(typeof(adjustments[jQuery(activeEl).attr("class")]) === 'undefined')
-				{
-					adjustments[jQuery(activeEl).attr("class")] = 0;
-				}
-				kerning = adjustments[jQuery(activeEl).attr("class")];
-				function MoveHandler(event)
-				{
-					var moveX = event.pageX - lastX;
-					if(moveX !== 0)
-					{
-						lastX = event.pageX;
-						kerning += moveX;	
-						adjustments[jQuery(activeEl).attr("class")] = kerning;
-						jQuery(activeEl).css('margin-left', kerning.toString()+'px'); // make live adjustment in DOM
-						generateCSS(adjustments, emPx); // make stored adjustment in generated CSS
-					}
-				}
-				jQuery(this).bind('mousemove', MoveHandler);
-				jQuery(this).mouseup(function(event){
-					jQuery(this).unbind('mousemove', MoveHandler);
-				});
-			}); // end el click
-		}
-	});
-	jQuery(document).keydown(function(event) {
-		if(activeEl) {
-			if(adjustments[jQuery(activeEl).attr("class")]) { // If there are current adjustments already made for this letter
-				kerning = adjustments[jQuery(activeEl).attr("class")]; // Set the kerning variable to the previously made adjustments for this letter (stored inside the adjustments dictionary object)
-			}
-			if(event.which === 37) { // If left arrow key
-				kerning--;
-				jQuery(activeEl).css('margin-left', kerning.toString()+'px');
-				adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-				generateCSS(adjustments, emPx);
-			}
-			if(event.which === 39) { // If right arrow key
-				kerning++;
-				jQuery(activeEl).css('margin-left', kerning.toString()+'px');
-				adjustments[jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-				generateCSS(adjustments, emPx);
-			}
-		}
-	});
-	var outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
-		var outputPanel = [
-			'<style>',
-				'.kernjs_overlay { position: absolute; top: 0; height: 100%; width: 100%; z-index: 100000000000000; overflow: none; background: rgba(0,0,0,.8); opacity: 0; font-family: Georgia; color: #222; }',
-				'.kernjs_container { background: #EEE; margin: 0 auto; width: 570px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px; text-transform: none; }',
-				'.kernjs_instructions { margin: 0 auto; text-align: center; padding: 40px; }',
-				'.kernjs_p { font-size: 18px; line-height: 24px; color: #555; text-align: left; text-shadow: 0 -1px 1px rgba(255,255,255,.8) }',
-				'.kernjs_instructions a { color: #009bd5 !important; text-align: center !important }',
-				'.kernjs_instructions a:visited { color: #009bd5 !important }',
-				'.kernjs_instructions textarea { width: 100% !important; height: 180px !important; -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 5px !important; border-color: #BBB !important; }',
-				'.kernjs_note { font-size: 13px; text-align: center; }',
-				'.kernjs_style { font-style: italic; }',
-				'.kernjs_button { list-style-type: none; }',
-				'.kernjs_finish { padding: 15px 0 20px 0; text-align: center; }',
-				'.kernjs_contact { text-align: center; font-size: 14px; }',
-			'</style>',	
-			'<div class="kernjs_overlay">',
-				'<div class="kernjs_container">',
-					'<div class="kernjs_instructions">',
-						'<div class="kernjs_p">Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use <a class="kernjs_style" href="http://www.letteringjs.com\">Lettering.JS</a> to create the necessary style hooks.</p><br/>',
-						'<textarea>',
-							generateCSS(adjustments, emPx),
-						'</textarea>',
-						'<div class="kernjs_button kernjs_finish">',
-							'<li><a class="btn" href="#"><span class="kernjs_continue">Continue Editing</span></a></li>',
-						'</div>',
-						'<div class="kernjs_contact">Please email <a class="kernjs_style" href="mailto:contact@kernjs.com">contact@kernjs.com</a> if you have any trouble</div></div>',
-					'</div>',
-				'</div',
-			'</div>'
-		].join('\n');
-		jQuery(document.body).prepend(outputPanel);
-		jQuery(".kernjs_overlay").animate({ "opacity": 1 }, function() {
-			// callback function here if we want to add any animations for the overlayed content later
-		});
-		jQuery(".kernjs_continue").click(function() {
-			$(".kernjs_overlay").fadeOut(function() {
-				$(this).detach();
-			});
-		});
-	});
-}
+        panelCss = document.createElement("link");
+        panelCss.setAttribute("href", thePanelLocation);
+        panelCss.setAttribute("rel", "stylesheet");
+        panelCss.setAttribute("type", "text/css");
+        document.getElementsByTagName("head")[0].appendChild(panelCss);
 
-//This function takes the stored adjustment data and constructs formatted CSS from it.
-function generateCSS(adjustments, emPx) {
-	var x, concatCSS, theCSS;
-	theCSS = [];
-	var emFlag = $('input:radio[value=em]').is(':checked');
-	var pxFlag = $('input:radio[value=px]').is(':checked');
-	for(x in adjustments) {
-		if(adjustments.hasOwnProperty(x)) {
-			if(emFlag) {
-				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + (Math.round((adjustments[x]/emPx)*1000)/1000).toString() + 'em', '}'].join('\n'); // This sweet little line performs the pixel->em conversion. Booya.
-			}
-			if(pxFlag) {
-				concatCSS = ["." + x + " {", '\t' + 'margin-left: ' + adjustments[x].toString() + 'px', '}'].join('\n');
-			}
-			theCSS = theCSS + '\n' + concatCSS;
-		}
-	}
-	return theCSS;
-}
+        thePanel = document.createElement("div");
+        thePanel.id = "panel";
+        thePanel.setAttribute("class", "kernjs_panel");
+        jQuery(thePanel).css('opacity','0');
 
-//I don't remember what you do, little function, but I will find out, someday.
-function findRootHeader(el){
-	var toReturn;
-	toReturn = el;
-	while(jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0)
-	{
-		toReturn = jQuery(toReturn).parent();
-	}
-	return toReturn;
-}
+        html = '<div class="kernjs_panel">';
+        html +=     '<div class="kernjs_unitSelect">';
+        html +=         '<form class="kernjs_unit" action="">';
+        html +=             '<section><input type="button" id="em" type="button" name="kernjs_unit" value="em" /></section>';
+        html +=             '<section><input type="button" type="button" name="kernjs_unit" value="px" /></section>';
+        html +=     '   </form>';
+        html +=     '</div>';
 
-// The following lines are modified versions of Lettering.JS functions. Using these allows Lettering.JS and Kern.JS to work together well.
-function splitter(el) {
-	if(jQuery(el).children().length === 0)
-	{
-		return injector(jQuery(el), '', 'char', '');
-	}
-	return jQuery.each(el.children(), function(index, value){
-		splitter(value);
-	});
-}
-function injector(t, splitter, klass, after) {
-	var a = t.text().split(splitter), inject = '';
-	if (a.length > 1) {
-		jQuery(a).each(function(i, item) {
-			inject += '<span class="'+klass+(i+1)+'">'+item+'</span>'+after;
-		});	
-		t.empty().append(inject);
-	}
-}
+        html +=     '<div class="kernjs_button">';
+        html +=         '<a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a>';
+        html +=     '</div>';
+        html += '</div>';
+
+        thePanel.innerHTML = html;
+        jQuery("body").prepend(thePanel);
+
+        jQuery(".kernjs_panel") // push down content below kernjs_panel
+            .after(jQuery("<div id='spacer'></div>")
+            .css('height', jQuery(".kernjs_panel").css("height")));
+
+        jQuery(".kernjs_panel").animate({
+            opacity: 1
+        });
+
+        jQuery(".kernjs_unitSelect input").click(function() {
+            jQuery(".kernjs_unitSelect input")
+                .css('background-color', '#FFF')
+                .css('color','#000');
+            jQuery(this)
+                .css('background-color','#222')
+                .css('color','#FFF');
+            unitFlag = jQuery(this).attr('value');
+        });
+        jQuery('.kernjs_unitSelect #em').click();
+
+        //This function takes the stored adjustment data and constructs formatted CSS from it.
+        function generateCSS(adjustments, emPx, unitFlag) {
+            var x, concatCSS, theCSS;
+            theCSS = [];
+            for (x in adjustments) {
+                if (adjustments.hasOwnProperty(x)) {
+                    if (unitFlag === 'em') {
+                        concatCSS = [x + " {", '\t' + 'margin-left: ' + (Math.round((adjustments[x] / emPx) * 1000) / 1000).toString() + 'em', '}'].join('\n'); // This sweet little line performs the pixel->em conversion. Booya.
+                    }
+                    if (unitFlag === 'px') {
+                        concatCSS = [x + " {", '\t' + 'margin-left: ' + adjustments[x].toString() + 'px', '}'].join('\n');
+                    }
+                    theCSS = theCSS + '\n' + concatCSS;
+                }
+            }
+            return theCSS;
+        }
+
+        // This function finds the h(x) tag wrapping the thing you clicked
+        function findRootHeader(el) {
+            var toReturn;
+            toReturn = el;
+            while (jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0)
+            {
+                toReturn = jQuery(toReturn).parent();
+            }
+            return toReturn;
+        }
+
+        // The following two functions (splitter and injector) are modified versions of Lettering.JS functions. Using these allows Lettering.JS and Kern.JS to work together well.
+        function splitter(el) {
+            if (jQuery(el).children().length === 0)
+            {
+                return injector(jQuery(el), '', 'char', '');
+            }
+            return jQuery.each(el.children(),
+            function(index, value) {
+                splitter(value);
+            });
+        }
+        function injector(t, splitter, klass, after) {
+            var a = t.text().split(splitter),
+            inject = '';
+            if (a.length > 1) {
+                jQuery(a).each(function(i, item) {
+                    inject += '<span class="' + klass + (i + 1) + '">' + item + '</span>' + after;
+                });
+                t.empty().append(inject);
+            }
+        }
+
+        jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
+            var emRatio, el, previousColor, theHtml, elid;
+            elid = ""; // if the user clicks on a header element with an ID, elid is set to be equal to the ID of the header element.
+            if(jQuery(event.target).attr("id")) { // If the clicked header has an ID...
+                elid = "#" + jQuery(event.target).attr("id") + " "; //...set elid to be a css string representation of the header's id (for example, "#myheader")
+            }
+            event.preventDefault(); // Prevent headers that are also links from following the URL while Kern.JS is active.
+            if (activeHeader !== this) {
+                activeHeader = this;
+                emRatio = jQuery("<span />").appendTo(event.target).css('height', '1em').css('visibility', 'hidden'); // This little guy finds the pixel size of 1em.
+                emPx = emRatio.height();
+                emRatio.detach(); // Retrieves the height value from emRatio, store it, and destroy emRatio since we don't need it anymore.
+                el = findRootHeader(event.target);
+                previousColor = 0;
+                theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.	
+
+                jQuery(this)
+                    .attr('unselectable', 'on')
+                    .css('-moz-user-select', 'none')
+                    .each(function() {
+                        this.onselectstart = function() {
+                            return false;
+                        };
+                    });
+
+                jQuery(el)
+                    .children()
+                    .css('opacity', '.5');
+
+                jQuery(this).mousedown(function(event) { // Listens for clicks on the newly created span objects.
+                    if (previousColor !== 0) {
+                        jQuery(activeEl).css('color', previousColor).css('opacity', 0.5);
+                    }
+                    activeEl = event.target; // Set activeEl to represent the clicked letter.
+                    previousColor = jQuery(activeEl).css('color');
+
+                    jQuery(activeEl)
+                    .css('color', '#00baff')
+                    .css('opacity', 1);
+
+                    lastX = event.pageX;
+                    if (typeof(adjustments[elid + "." + jQuery(activeEl).attr("class")]) === 'undefined')
+                    {
+                        adjustments[elid + "." + jQuery(activeEl).attr("class")] = 0;
+                    }
+                    kerning = adjustments[elid + "." + jQuery(activeEl).attr("class")];
+                    function MoveHandler(event)
+                    {
+                        var moveX = event.pageX - lastX;
+                        if (moveX !== 0)
+                        {
+                            lastX = event.pageX;
+                            kerning += moveX;
+                            adjustments[elid + "." + jQuery(activeEl).attr("class")] = kerning;
+                            jQuery(activeEl).css('margin-left', kerning.toString() + 'px'); // make live adjustment in DOM
+                            generateCSS(adjustments, emPx, unitFlag); // make stored adjustment in generated CSS
+                        }
+                    }
+                    jQuery(this).bind('mousemove', MoveHandler);
+                    jQuery(this).mouseup(function(event) {
+                        jQuery(this).unbind('mousemove', MoveHandler);
+                    });
+                });
+                // end el click
+            }
+        });
+        jQuery(document).keydown(function(event) { // This feels cludgy and should probably be rewritten at some point b/c there is a lot of reused code.
+            var elid = "";
+            if (activeEl) {
+                if (jQuery(activeEl).parent().attr('id')) {
+                    elid = "#" + jQuery(activeEl).parent().attr('id') + " ";
+                }
+                if (adjustments[elid + "." + jQuery(activeEl).attr("class")]) { // If there are current adjustments already made for this letter
+                    kerning = adjustments[elid + "." + jQuery(activeEl).attr("class")]; // Set the kerning variable to the previously made adjustments for this letter (stored inside the adjustments dictionary object)
+                }
+                if (event.which === 37) { // If left arrow key
+                    kerning--;
+                    jQuery(activeEl).css('margin-left', kerning.toString() + 'px');
+                    adjustments[elid + "." + jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
+                    generateCSS(adjustments, emPx, unitFlag);
+                }
+                if (event.which === 39) { // If right arrow key
+                    kerning++;
+                    jQuery(activeEl).css('margin-left', kerning.toString() + 'px');
+                    adjustments[elid + "." + jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
+                    generateCSS(adjustments, emPx, unitFlag);
+                }
+            }
+        });
+        outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
+            var outputPanel, outputHTML;
+            outputPanel = document.createElement("div");
+            outputPanel.id = "overlay";
+            outputPanel.setAttribute("class", "kernjs_overlay");
+            
+            if(activeEl) {
+                outputHTML = '<div class="kernjs_overlay">';
+                outputHTML += '<div class="kernjs_container">';
+                outputHTML += '<div class="kernjs_instructions">';
+                outputHTML += '<div class="kernjs_p kernjs_success"><em>Looks awesome.</em> Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use <a class="kernjs_style" href="http://www.letteringjs.com\">Lettering.JS</a> to create the necessary style hooks.</div><br/>';
+                outputHTML += '<textarea>' + generateCSS(adjustments, emPx, unitFlag) + '</textarea>';
+                outputHTML += '<div class="kernjs_button kernjs_finish">';
+                outputHTML += '<a class="btn" href="#"><span class="kernjs_button" id="kernjs_continue">Continue Editing</span></a>';
+                outputHTML += '</div>';
+                outputHTML += '<div class="kernjs_contact">Please email <a class="kernjs_style" href="mailto:contact@kernjs.com">contact@kernjs.com</a> if you have any trouble</div></div>';
+                outputHTML += '</div>';
+                outputHTML += '</div';
+                outputHTML += '</div>';
+            }
+            else {
+                outputHTML = '<div class="kernjs_overlay">';
+                outputHTML += '<div class="kernjs_container">';
+                outputHTML += '<div class="kernjs_instructions">';
+                outputHTML += '<div class="kernjs_p kernjs_error"><em>Oops.</em> It looks like you haven\'t made any adjustments yet.</div>';
+                outputHTML += '<div class="kernjs_button kernjs_finish"><a class="btn" href="#"><span class="kernjs_button" id="kernjs_continue">Try again.</span></a></div>';
+                outputHTML += '</div></div>';
+            }
+                outputHTML += '<a href="http://www.kernjs.com" target="_blank"><img src="' + location + 'logo.png" id="kernjs_logo"/></a>';
+                outputHTML += '<h6>(opens a new window)</h6>'
+
+            outputPanel.innerHTML = outputHTML;
+            document.getElementsByTagName("body")[0].appendChild(outputPanel);
+
+            jQuery(".kernjs_overlay").animate({
+                "opacity": 1
+            },
+            function() { // callback function here if we want to add any animations for the overlayed content later
+                });
+
+            jQuery("#kernjs_continue").click(function() {
+                jQuery(".kernjs_overlay").fadeOut(function() {
+                    jQuery(this).detach();
+                });
+            });
+        });
+    }
+    kern();
+})();
