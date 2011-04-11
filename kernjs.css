@@ -13,7 +13,7 @@
     height: 58px;
     width: 100%;
     margin: 0 auto;
-    background: url(noise.png) #f1f1f1;
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #f1f1f1;
     border: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -34,7 +34,7 @@
     display: inline-block;
     margin: 7px 0 0 0;
     padding: 9px 20px;
-    background: url(noise.png) #333;
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #333;
     color: white;
     font-weight: bold;
 }
@@ -80,8 +80,9 @@ h1, h2, h3, h4, h5, h6, span, p, li {
     min-height: 100%;
     width: 100%;
     z-index: 100000000000000;
+    text-align: center;
     overflow: none;
-    background: url(noise.png) rgba(0,0,0,.8);
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) rgba(0,0,0,.7);
     opacity: 0;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #222;
@@ -90,7 +91,7 @@ h1, h2, h3, h4, h5, h6, span, p, li {
     -moz-box-shadow: 0 0 15px #000;
     -webit-box-shadow: 0 0 15px #000;
     box-shadow: 0 0 15px #000;
-    background: url(noise.png) #f1f1f1; 
+    background: url(https://github.com/bstrom87/kern.js/raw/master/noise.png) #f1f1f1; 
     margin: 0 auto;
     text-transform: none;
 }
@@ -106,7 +107,10 @@ h1, h2, h3, h4, h5, h6, span, p, li {
     text-shadow: 0 -1px 1px rgba(255,255,255,1);
 }
 .kernjs_error {
-    text-align: center;
+    text-align: center !important;
+}
+.kernjs_success {
+    text-align: left !important;
 }
 .kernjs_instructions a {
     color: #009bd5 !important;
@@ -117,12 +121,12 @@ h1, h2, h3, h4, h5, h6, span, p, li {
 }
 .kernjs_instructions textarea {
     -webkit-border-radius: 5px;
-    -moz-border-radius: 5x;
+    -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 10px;
     width: 100% !important;
     height: 180px !important;
-    border-color: #BBB !important;
+    border: 1px solid #BBB !important;
 }
 .kernjs_note {
     font-size: 13px;
@@ -142,4 +146,14 @@ h1, h2, h3, h4, h5, h6, span, p, li {
     text-align: center;
     font-size: 14px;
     padding-bottom: 25px;
+}
+
+#kernjs_logo {
+    padding-top: 10px;
+}
+
+.kernjs_overlay h6 {
+    color: white !important;
+    margin: 0 !important;
+    cursor: auto !important;
 }
