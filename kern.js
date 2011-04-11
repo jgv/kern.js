@@ -27,7 +27,7 @@
         kerning = 0;
         adjustments = {};
 
-        thePanelLocation = "kernjs.css";
+        thePanelLocation = location + "kernjs.css";
 
         panelCss = document.createElement("link");
         panelCss.setAttribute("href", thePanelLocation);
