@@ -1,5 +1,5 @@
 /*
-* Kern.JS 0.2.5
+* Kern.JS 0.2.6
 * http://www.kernjs.com
 * Built by Brendan Stromberger, www.brendanstromberger.com
 * Special thanks to Mathew Luebbert at www.luebbertm.com for significant code contributions
@@ -129,9 +129,6 @@
         jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
             var emRatio, el, previousColor, theHtml, elid;
             elid = ""; // if the user clicks on a header element with an ID, elid is set to be equal to the ID of the header element.
-            if(jQuery(event.target).attr("id")) { // If the clicked header has an ID...
-                elid = "#" + jQuery(event.target).attr("id") + " "; //...set elid to be a css string representation of the header's id (for example, "#myheader")
-            }
             event.preventDefault(); // Prevent headers that are also links from following the URL while Kern.JS is active.
             if (activeHeader !== this) {
                 activeHeader = this;
@@ -139,7 +136,19 @@
                 emPx = emRatio.height();
                 emRatio.detach(); // Retrieves the height value from emRatio, store it, and destroy emRatio since we don't need it anymore.
                 el = findRootHeader(event.target);
+                
+                if($(el).attr('id')) { // If the clicked header has an ID...
+                    elid = "#" + $(el).attr('id') + " "; //...set elid to be a css string representation of the header's id (for example, "#myheader")
+                    console.log(elid);
+                }
+                else {
+                    console.log(elid);
+                }
+                
+                
                 previousColor = 0;
+                
+                if($)
                 theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.	
 
                 jQuery(this)
