@@ -20,7 +20,7 @@
 	      var lastX;
         var thePanelLocation = "http://github.com/jgv/kern.js/raw/master/css/panel.css"; // change this to wherever the css is being hosted
         var panelCss = document.createElement("link");
-        thePanel.setAttribute("href", thepanelLocation);
+        thePanel.setAttribute("href", thePanelLocation);               
         thePanel.setAttribute("rel", "stylesheet");
         thePanel.setAttribute("type", "text/css");
         document.getElementsByTagName("head")[0].appendChild(panelCss);
@@ -30,7 +30,7 @@
         thePanel.setAttribute("class", "kernjs_panel");
 
         var html = "<div class='kernjs_button'>";
-				html += "<a class='btn' href='#' class='kernjs_finish'><span>Finish Editing</span></a>",
+				html += "<a class='btn' href='#' class='kernjs_finish'><span>Finish Editing</span></a>";
 			  html += "</div>";
 
         thePanel.innerHTML = html;
@@ -105,9 +105,9 @@
 		        
             var outputPanel = document.createElement("div");
             thePanel.setAttribute("class", "kernjs_overlay");
-
+            
             var outputHtml = "<div class='kernjs_container'>";
-
+            
 					  outputHtml += "<div class='kernjs_instructions'>";
             outputHtml += "<div class='kernjs_p'>";
             outputHtml += "<p>Looks awesome. Here\'s the CSS for your lovely letters. Paste the following CSS into a stylesheet and include it in your page, then use the wonderfully easy-to-use";
@@ -121,7 +121,10 @@
 						outputHtml += "</div>";
 
         document.getElementsByTagName("body")[0].appendChild(thePanel);
-	      
+
+	      }
+
+    
 	      jQuery("h1, h2, h3, h4, h5, h6").click(function(event) { // Activate a word
 		        if(!(activeHeader === this))
 		        {
