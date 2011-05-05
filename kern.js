@@ -41,16 +41,16 @@
         jQuery(thePanel).css('opacity','0');
 
         html = '<div class="kernjs_panel">';
-        html +=     '<div class="kernjs_unitSelect">';
-        html +=         '<form class="kernjs_unit" action="">';
-        html +=             '<section><input type="button" id="em" type="button" name="kernjs_unit" value="em" /></section>';
-        html +=             '<section><input type="button" type="button" name="kernjs_unit" value="px" /></section>';
-        html +=     '   </form>';
-        html +=     '</div>';
+        html += '<div class="kernjs_unitSelect">';
+        html += '<form class="kernjs_unit" action="">';
+        html += '<section><input type="button" id="em" type="button" name="kernjs_unit" value="em" /></section>';
+        html += '<section><input type="button" type="button" name="kernjs_unit" value="px" /></section>';
+        html += '</form>';
+        html += '</div>';
 
-        html +=     '<div class="kernjs_button">';
-        html +=         '<a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a>';
-        html +=     '</div>';
+        html += '<div class="kernjs_button">';
+        html += '<a class="btn" href="#" class="kernjs_finish"><span>Finish Editing</span></a>';
+        html += '</div>';
         html += '</div>';
 
         thePanel.innerHTML = html;
@@ -73,6 +73,7 @@
                 .css('color','#FFF');
             unitFlag = jQuery(this).attr('value');
         });
+
         jQuery('.kernjs_unitSelect #em').click();
 
         //This function takes the stored adjustment data and constructs formatted CSS from it.
@@ -97,8 +98,7 @@
         function findRootHeader(el) {
             var toReturn;
             toReturn = el;
-            while (jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0)
-            {
+            while (jQuery.inArray(jQuery(toReturn).get(0).tagName, ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']) < 0) {
                 toReturn = jQuery(toReturn).parent();
             }
             return toReturn;
@@ -115,6 +115,7 @@
                 splitter(value);
             });
         }
+
         function injector(t, splitter, klass, after) {
             var a = t.text().split(splitter),
             inject = '';
@@ -148,9 +149,9 @@
                 
                 previousColor = 0;
                 
-                if($)
-                theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.	
-
+                if($) {
+                    theHtml = splitter(jQuery(el)); // Call method from Lettering.js. This method splits up the clicked body of text into <span> elements containing single letters.	
+                }
                 jQuery(this)
                     .attr('unselectable', 'on')
                     .css('-moz-user-select', 'none')
@@ -176,16 +177,13 @@
                     .css('opacity', 1);
 
                     lastX = event.pageX;
-                    if (typeof(adjustments[elid + "." + jQuery(activeEl).attr("class")]) === 'undefined')
-                    {
+                    if (typeof(adjustments[elid + "." + jQuery(activeEl).attr("class")]) === 'undefined') {
                         adjustments[elid + "." + jQuery(activeEl).attr("class")] = 0;
                     }
                     kerning = adjustments[elid + "." + jQuery(activeEl).attr("class")];
-                    function MoveHandler(event)
-                    {
+                    function MoveHandler(event) {
                         var moveX = event.pageX - lastX;
-                        if (moveX !== 0)
-                        {
+                        if (moveX !== 0) {
                             lastX = event.pageX;
                             kerning += moveX;
                             adjustments[elid + "." + jQuery(activeEl).attr("class")] = kerning;
@@ -201,6 +199,7 @@
                 // end el click
             }
         });
+
         jQuery(document).keydown(function(event) { // This feels cludgy and should probably be rewritten at some point b/c there is a lot of reused code.
             var elid = "";
             if (activeEl) {
@@ -210,20 +209,20 @@
                 if (adjustments[elid + "." + jQuery(activeEl).attr("class")]) { // If there are current adjustments already made for this letter
                     kerning = adjustments[elid + "." + jQuery(activeEl).attr("class")]; // Set the kerning variable to the previously made adjustments for this letter (stored inside the adjustments dictionary object)
                 }
-                if (event.which === 37) { // If left arrow key
-                    kerning--;
-                    jQuery(activeEl).css('margin-left', kerning.toString() + 'px');
-                    adjustments[elid + "." + jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
-                    generateCSS(adjustments, emPx, unitFlag);
-                }
-                if (event.which === 39) { // If right arrow key
-                    kerning++;
+                if (event.which === 37 || 39) {
+                    if (event.which === 37) { // If left arrow key
+                        kerning--;
+                    }
+                    if (event.which === 39) {
+                        kerning++;
+                    }
                     jQuery(activeEl).css('margin-left', kerning.toString() + 'px');
                     adjustments[elid + "." + jQuery(activeEl).attr("class")] = kerning; // add/modify the current letter's kerning information to the "adjustments" object.
                     generateCSS(adjustments, emPx, unitFlag);
                 }
             }
         });
+
         outputPanel = jQuery(".kernjs_panel a").mouseup(function() {
             var outputPanel, outputHTML;
             outputPanel = document.createElement("div");
@@ -243,8 +242,7 @@
                 outputHTML += '</div>';
                 outputHTML += '</div';
                 outputHTML += '</div>';
-            }
-            else {
+            } else {
                 outputHTML = '<div class="kernjs_overlay">';
                 outputHTML += '<div class="kernjs_container">';
                 outputHTML += '<div class="kernjs_instructions">';
@@ -252,8 +250,8 @@
                 outputHTML += '<div class="kernjs_button kernjs_finish"><a class="btn" href="#"><span class="kernjs_button" id="kernjs_continue">Try again.</span></a></div>';
                 outputHTML += '</div></div>';
             }
-                outputHTML += '<a href="http://www.kernjs.com" target="_blank"><img src="' + location + 'logo.png" id="kernjs_logo"/></a>';
-                outputHTML += '<h6>(opens a new window)</h6>'
+            outputHTML += '<a href="http://www.kernjs.com" target="_blank"><img src="' + location + 'logo.png" id="kernjs_logo"/></a>';
+            outputHTML += '<h6>(opens a new window)</h6>'
 
             outputPanel.innerHTML = outputHTML;
             document.getElementsByTagName("body")[0].appendChild(outputPanel);
