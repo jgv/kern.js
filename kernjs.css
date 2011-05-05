@@ -1,3 +1,5 @@
+section { display: block; }
+
 .kernjs_panel * {
     outline: none;
 }
